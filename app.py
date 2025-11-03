@@ -122,3 +122,67 @@ def listar_confirmados():
 if __name__ == '__main__':
     # Apenas para testes locais (sem Gunicorn)
     app.run(host='0.0.0.0', port=5000)
+    
+    # Configurações de segurança: o Render irá fornecer este valor.
+ADMIN_TOKEN = os.environ.get('admin', 'admin') 
+# ^ Se estiver no Render, ele usa o valor da variável de ambiente. 
+# Se localmente, ele usa o default.
+# Quando for para o Render, você DEVE trocar o 'senha_super_secreta_default' por algo forte.
+
+@app.route('/admin', methods=['GET'])
+def admin_dashboard():
+    # Verifica se o token na URL corresponde ao token secreto
+    token_fornecido = request.args.get('token')
+    if token_fornecido != ADMIN_TOKEN:
+        # Retorna 403 Proibido se o token for inválido
+        return "Acesso Negado: Token de administrador inválido.", 403
+
+    conn = None
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        # Busca TODOS os RSVPs (SIM e NÃO), ordenados por data
+        cur.execute("SELECT id, nome, participacao, timestamp FROM rsvps ORDER BY timestamp DESC")
+
+        # Formata os dados para o template
+        rsvps = [
+            {'id': row[0], 'nome': row[1], 'participacao': row[2], 'data': row[3].strftime("%d/%m %H:%M")}
+            for row in cur.fetchall()
+        ]
+
+        cur.close()
+        return render_template('admin.html', rsvps=rsvps)
+    except Exception as e:
+        return f"Erro ao carregar dashboard: {e}", 500
+    finally:
+        if conn:
+            conn.close()
+            
+@app.route('/api/excluir/<int:rsvp_id>', methods=['POST'])
+def excluir_rsvp(rsvp_id):
+    # Proteção: A exclusão deve ser feita APENAS com o token correto
+    # O JavaScript (admin.html) envia o token que estava na URL
+    token_fornecido = request.json.get('token')
+    if token_fornecido != ADMIN_TOKEN:
+        # Se o token não bater com o que está configurado, o acesso é negado.
+        return jsonify({'success': False, 'message': 'Token de administrador inválido.'}), 403
+
+    conn = None
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        
+        # O comando SQL: Deleta a linha da tabela 'rsvps' onde o 'id' corresponde ao ID recebido.
+        cur.execute("DELETE FROM rsvps WHERE id = %s", (rsvp_id,))
+        
+        conn.commit() # Confirma a exclusão no banco de dados.
+        cur.close()
+        return jsonify({'success': True, 'message': f'RSVP ID {rsvp_id} excluído.'}), 200
+    except Exception as e:
+        # Em caso de erro (ex: BD offline), desfaz a operação.
+        if conn:
+            conn.rollback()
+        return jsonify({'success': False, 'message': f'Erro ao excluir: {e}'}), 500
+    finally:
+        if conn:
+            conn.close()

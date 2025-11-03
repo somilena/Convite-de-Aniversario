@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin - Convite Duplo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      background-color: #f0f0f0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    .status-sim {
+      color: green;
+      font-weight: bold;
+    }
+
+    .status-nao {
+      color: red;
+      font-weight: bold;
+    }
+
+    .btn-excluir {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+
+    .btn-excluir:hover {
+      background-color: #d32f2f;
+    }
+
+    .rodape-info {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Dashboard de Confirmações (RSVP)</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome do Convidado</th>
+          <th>Participação</th>
+          <th>Data/Hora</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for rsvp in rsvps %}
+        <tr id="rsvp-row-{{ rsvp.id }}">
+          <td>{{ rsvp.id }}</td>
+          <td>{{ rsvp.nome }}</td>
+          <td class="status-{{ rsvp.participacao|lower }}">{{ rsvp.participacao }}</td>
+          <td>{{ rsvp.data }}</td>
+          <td>
+            <button class="btn-excluir" onclick="excluirRSVP({{ rsvp.id }})">
+              Excluir
+            </button>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5" style="text-align: center;">Nenhuma confirmação encontrada.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <p class="rodape-info">URL Secreta: {{ request.url }}</p>
+  </div>
+
+  <script>
+    // ⚠️ IMPORTANTE: O token é exposto aqui! 
+    // Em um projeto real, NUNCA faríamos isso. 
+    // Mas para simplificar a dashboard, vamos passá-lo via JS.
+    // O valor do token é pego da URL que o administrador usou para acessar.
+    const URL_ADMIN = new URL(window.location.href);
+    const ADMIN_TOKEN = URL_ADMIN.searchParams.get('token');
+
+    async function excluirRSVP(id) {
+      if (!confirm(`Tem certeza que deseja excluir o RSVP ID ${id}?`)) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/excluir/${id}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: ADMIN_TOKEN }) // Envia o token para autenticação
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          alert(data.message);
+          // Remove a linha da tabela sem recarregar a página
+          const row = document.getElementById(`rsvp-row-${id}`);
+          if (row) {
+            row.remove();
+          }
+        } else {
+          alert('Falha na exclusão: ' + data.message);
+        }
+
+      } catch (error) {
+        console.error('Erro de rede:', error);
+        alert('Erro de conexão ao tentar excluir.');
+      }
+    }
+  </script>
+</body>
+
+</html>
