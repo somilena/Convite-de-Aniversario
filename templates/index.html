@@ -15,25 +15,26 @@
     <header class="header">
       <div class="nomes-idades">
         <div class="pessoa">
-          <img src="https://via.placeholder.com/150/ffc0cb/000000?text=Heloise" alt="Foto da Heloíse"
-            class="foto-redonda">
+          <img src="{{ url_for('static', filename='heloise.jpeg') }}" alt="Foto da Heloíse" class="foto-redonda">
           <span class="idade amarelo">12 ANOS</span>
           <span class="nome-sub rosa">DA HELOISE</span>
         </div>
         <div class="pessoa">
-          <img src="https://via.placeholder.com/150/87ceeb/000000?text=Victor" alt="Foto do Victor"
-            class="foto-redonda">
+          <img src="{{ url_for('static', filename='victor.jpeg') }}" alt="Foto do Victor" class="foto-redonda">
           <span class="idade verde">17 ANOS</span>
           <span class="nome-sub azul">DO VICTOR</span>
         </div>
       </div>
-      <h1 class="titulo-principal">🎉 Venha Comemorar! 🎉</h1>
     </header>
 
-    <section class="detalhes-evento">
-      <p><strong>Dia:</strong> 11/11</p>
-      <p><strong>Horário:</strong> Às 19h</p>
-      <p><strong>Local:</strong> À Lá Vontê Pizzaria <br> SRIA II (Polo de Moda) - Guará II</p>
+    <section class="titulo-e-detalhes">
+      <h1 class="titulo-principal">🎉 Venha Comemorar! 🎉</h1>
+
+      <div class="detalhes-evento">
+        <p>Dia: <strong>11/11</strong></p>
+        <p>Horário: <strong>Às 19h30</strong></p>
+        <p>Local: <strong>À Lá Vontê Pizzaria</strong> <br> SRIA II (Polo de Moda) - Guará, Brasília</p>
+      </div>
     </section>
 
     <section class="confirmacao-form">
@@ -55,12 +56,13 @@
     </section>
 
     <section class="lista-convidados">
-      <h3>🥳 Confirmados:</h3>
+      <h3>🥳 Quem Já Confirmou?</h3>
       <div id="lista-confirmados">
       </div>
     </section>
 
     <div class="flork-container">
+      <img src="{{ url_for('static', filename='flork.avif') }}" alt="Flork Meme" class="flork-img">
       <div class="flork-balao">Presença confirmada</div>
     </div>
   </div>
