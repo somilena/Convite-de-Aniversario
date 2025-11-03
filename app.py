@@ -124,7 +124,7 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
     
     # Configurações de segurança: o Render irá fornecer este valor.
-ADMIN_TOKEN = os.environ.get('admin', 'admin') 
+ADMIN_TOKEN = os.environ.get('ADMIN_TOKEN', 'admin') 
 # ^ Se estiver no Render, ele usa o valor da variável de ambiente. 
 # Se localmente, ele usa o default.
 # Quando for para o Render, você DEVE trocar o 'senha_super_secreta_default' por algo forte.
