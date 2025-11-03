@@ -27,8 +27,7 @@ body {
   line-height: 1.6;
   overflow-x: hidden; /* Evita scroll horizontal */
 
-  /* Fundo com padrão de balões e confetes */
-  /* Você pode gerar um SVG ou usar várias imagens pequenas como background-image */
+  /* Fundo com padrão de balões e confetes - ATIVADO! */
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 60V0h60v60h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6H0zm0 0h60V0H0z' fill='%2387CEEB'%3E%3C/path%3E%3Cpath d='M60 0v60h-4V0h4z' fill='%23FFC0CB'%3E%3C/path%3E%3Cpath d='M60 0v60h-4V0h4z' fill='%23FFFF99'%3E%3C/path%3E%3Cpath d='M60 0v60h-4V0h4z' fill='%2390EE90'%3E%3C/path%3E%3C/g%3E%3C/svg%3E"),
     url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 60V0h60v60h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6H0zm0 0h60V0H0z' fill='%23FFC0CB'%3E%3C/path%3E%3Cpath d='M60 0v60h-4V0h4z' fill='%2387CEEB'%3E%3C/path%3E%3Cpath d='M60 0v60h-4V0h4z' fill='%23FFFF99'%3E%3C/path%3E%3Cpath d='M60 0v60h-4V0h4z' fill='%2390EE90'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
   background-size: 150px, 100px; /* Tamanho dos padrões */
@@ -61,15 +60,17 @@ body {
 }
 
 .pessoa {
-  position: relative;
+  position: relative; /* ESSENCIAL para chapéu e balões de idade/nome */
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #fcfcfc; /* Fundo suave para cada pessoa */
+  background-color: transparent; /* Fundo transparente para não esconder os balões */
   border-radius: 15px;
-  padding: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  padding: 0; /* Removido padding para fotos e chapéus ficarem mais juntos */
+  box-shadow: none; /* Removido sombra do container pessoa */
   transition: transform 0.3s ease;
+  width: 200px; /* Largura para cada pessoa */
+  margin-top: 50px;
 }
 
 .pessoa:hover {
@@ -77,26 +78,50 @@ body {
 }
 
 .foto-redonda {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%; /* Faz a imagem redonda */
-  object-fit: cover; /* Garante que a imagem preencha o círculo */
-  border: 5px solid white; /* Borda branca na foto */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra suave para destacar */
-  margin-bottom: 10px;
+  width: 150px; /* Tamanho da foto */
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 0px;
+  z-index: 1; /* Garante que a foto fique acima de balões de fundo se houver */
+}
+
+/* Estilo para os chapéus */
+.chapeu {
+  position: absolute;
+  width: 100px; /* Ajuste o tamanho do chapéu conforme a imagem */
+  height: auto;
+  z-index: 2; /* Garante que o chapéu fique acima da foto */
+  pointer-events: none; /* Impede que o mouse interaja com o chapéu */
+}
+
+.heloise-chapeu {
+  top: -20px; /* Ajuste para posicionar na cabeça da Heloíse */
+  left: 50%;
+  transform: translateX(-50%) rotate(-10deg); /* Leve rotação */
+}
+
+.victor-chapeu {
+  top: -20px; /* Ajuste para posicionar na cabeça do Victor */
+  left: 50%;
+  transform: translateX(-50%) rotate(10deg); /* Leve rotação na outra direção */
 }
 
 .idade {
   font-family: "Fredoka One", cursive;
   font-size: 2.2em;
-  color: white;
+  color: var(--cor-texto-principal);
   padding: 5px 15px;
   border-radius: 10px;
-  position: absolute; /* Posiciona a idade sobre a foto/pessoa */
-  top: -15px; /* Ajuste a posição conforme necessário */
-  right: -10px;
+  position: absolute;
+  top: -30px; /* Ajustado para ficar um pouco acima do chapéu */
+  left: 50%;
+  transform: translateX(-50%) rotate(5deg); /* Leve rotação */
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-  transform: rotate(5deg); /* Uma leve rotação para o balão */
+  z-index: 0; /* Fica atrás da foto e do chapéu */
+  min-width: 100px;
 }
 
 /* Cores específicas para as idades */
@@ -112,11 +137,16 @@ body {
 .nome-sub {
   font-family: "Fredoka One", cursive;
   font-size: 1.5em;
-  margin-top: 10px;
-  padding: 5px 10px;
+  position: absolute;
+  bottom: -20px; /* Posiciona o nome abaixo da foto */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 15px;
   border-radius: 8px;
-  color: white; /* Cor do texto no balão */
+  color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  z-index: 0; /* Fica atrás da foto e do chapéu */
+  min-width: 150px;
 }
 
 /* Cores de fundo para os nomes */
@@ -127,38 +157,57 @@ body {
   background-color: var(--cor-balao-azul);
 }
 
+.titulo-e-detalhes {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
 .titulo-principal {
   font-family: "Fredoka One", cursive;
-  font-size: 3em;
+  font-size: 3.5em;
   color: var(--cor-texto-principal);
-  margin-top: 20px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  padding: 0;
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.15);
+  display: block;
 }
 
-h3 {
-  font-family: "Fredoka One", cursive;
-  font-size: 1.8em;
-  color: var(--cor-texto-principal);
-  margin-top: 40px;
-  margin-bottom: 20px;
-}
-
-.detalhes-evento p {
+.detalhes-evento {
+  margin-top: 15px;
   font-size: 1.1em;
-  margin: 8px 0;
+  line-height: 1.5;
   color: var(--cor-texto-secundario);
 }
-.detalhes-evento strong {
-  color: var(--cor-texto-principal);
+
+/* Estilo para o link do mapa */
+.link-mapa {
+  color: var(--cor-texto-principal); /* Cor do texto do link */
+  text-decoration: none; /* Remove sublinhado padrão */
+  font-weight: bold; /* Deixa negrito como o resto do local */
+  transition: color 0.3s ease;
+}
+
+.link-mapa:hover {
+  color: var(--cor-balao-azul); /* Muda de cor ao passar o mouse */
+  text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
 }
 
 /* Formulário de Confirmação */
 .confirmacao-form {
-  background-color: #fff9f9; /* Fundo mais claro para o form */
+  background-color: #fff9f9;
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
   margin-top: 40px;
+}
+
+.confirmacao-form h3 {
+  /* Ajusta o título do formulário */
+  font-size: 1.8em;
+  color: var(--cor-texto-principal);
+  margin-top: 0;
+  margin-bottom: 20px;
 }
 
 .confirmacao-form label {
@@ -175,7 +224,7 @@ h3 {
   padding: 12px;
   margin-bottom: 20px;
   border: 2px solid var(--cor-borda-input);
-  border-radius: 10px; /* Bordas mais arredondadas */
+  border-radius: 10px;
   font-size: 1.1em;
   font-family: "Open Sans", sans-serif;
   transition: all 0.3s ease;
@@ -215,24 +264,32 @@ h3 {
 /* Lista de Confirmados */
 .lista-convidados {
   margin-top: 40px;
-  background-color: #f9f9ff; /* Fundo mais claro para a lista */
+  background-color: #f9f9ff;
   padding: 30px;
   border-radius: 15px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.lista-convidados h3 {
+  /* Ajusta o título da lista */
+  font-size: 1.8em;
+  color: var(--cor-texto-principal);
+  margin-top: 0;
+  margin-bottom: 20px;
 }
 
 #lista-confirmados {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px; /* Espaço entre os nomes */
+  gap: 10px;
   padding: 15px 0;
   border-top: 1px solid #eee;
   margin-top: 20px;
 }
 
 #lista-confirmados p {
-  background-color: #e0f7fa; /* Fundo azul claro para cada nome */
+  background-color: #e0f7fa;
   color: #00796b;
   padding: 8px 15px;
   border-radius: 20px;
@@ -245,7 +302,7 @@ h3 {
 }
 
 #lista-confirmados p span.status-sim {
-  color: #388e3c; /* Verde mais escuro para o "VAI" */
+  color: #388e3c;
 }
 
 /* Flork (garante que ele fique no espaço de baixo) */
@@ -255,7 +312,7 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  height: 180px; /* Altura razoável para o flork */
+  height: 180px;
 }
 
 .flork-img {
@@ -270,11 +327,11 @@ h3 {
 
 .flork-balao {
   background-color: white;
-  border: 2px solid #ffc0cb; /* Borda rosa */
-  border-radius: 25px 25px 25px 5px; /* Balão de fala arredondado com ponta */
+  border: 2px solid #ffc0cb;
+  border-radius: 25px 25px 25px 5px;
   padding: 10px 20px;
   position: absolute;
-  bottom: 110px; /* Posição acima do flork */
+  bottom: 110px;
   left: 50%;
   transform: translateX(-50%);
   font-family: "Fredoka One", cursive;
@@ -282,7 +339,7 @@ h3 {
   color: var(--cor-texto-principal);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   z-index: 2;
-  white-space: nowrap; /* Impede que o texto quebre linha */
+  white-space: nowrap;
 }
 
 /* Responsividade básica */
@@ -331,28 +388,9 @@ h3 {
     bottom: 80px;
     font-size: 1em;
   }
-}
 
-/* NOVO: Bloco para conter o Título e os Detalhes */
-.titulo-e-detalhes {
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 30px; /* Adiciona espaço antes do formulário */
-}
-
-.titulo-principal {
-  font-family: "Fredoka One", cursive;
-  font-size: 3.5em;
-  color: var(--cor-texto-principal);
-  margin: 0; /* Remove margens extras para centralizar */
-  padding: 0;
-  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.15);
-  display: block; /* Garante que o elemento ocupe toda a largura */
-}
-
-.detalhes-evento {
-  margin-top: 15px;
-  font-size: 1.1em;
-  line-height: 1.5;
-  color: var(--cor-texto-secundario);
+  .chapeu {
+    width: 80px; /* Ajuste para chapéu menor em telas pequenas */
+    top: -15px;
+  }
 }

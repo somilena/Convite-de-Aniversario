@@ -15,12 +15,16 @@
     <header class="header">
       <div class="nomes-idades">
         <div class="pessoa">
-          <img src="{{ url_for('static', filename='heloise.jpeg') }}" alt="Foto da Heloíse" class="foto-redonda">
+          <img src="{{ url_for('static', filename='heloise.jpg') }}" alt="Foto da Heloíse" class="foto-redonda">
+          <img src="{{ url_for('static', filename='chapeu_heloise.png') }}" alt="Chapéu de Festa"
+            class="chapeu heloise-chapeu">
           <span class="idade amarelo">12 ANOS</span>
           <span class="nome-sub rosa">DA HELOISE</span>
         </div>
         <div class="pessoa">
-          <img src="{{ url_for('static', filename='victor.jpeg') }}" alt="Foto do Victor" class="foto-redonda">
+          <img src="{{ url_for('static', filename='victor.jpg') }}" alt="Foto do Victor" class="foto-redonda">
+          <img src="{{ url_for('static', filename='chapeu_victor.png') }}" alt="Chapéu de Festa"
+            class="chapeu victor-chapeu">
           <span class="idade verde">17 ANOS</span>
           <span class="nome-sub azul">DO VICTOR</span>
         </div>
@@ -32,8 +36,14 @@
 
       <div class="detalhes-evento">
         <p>Dia: <strong>11/11</strong></p>
-        <p>Horário: <strong>Às 19h30</strong></p>
-        <p>Local: <strong>À Lá Vontê Pizzaria</strong> <br> SRIA II (Polo de Moda) - Guará, Brasília</p>
+        <p>Horário: <strong>Às 19:30</strong></p>
+        <p>
+          Local: <a
+            href="https://www.google.com/maps/search/A+La+Vont%C3%AA+Pizzaria+SRIA+II+(Polo+de+Moda)+-+Guar%C3%A1+II,+Bras%C3%ADlia"
+            target="_blank" class="link-mapa">
+            <strong>À Lá Vontê Pizzaria</strong> <br> SRIA II (Polo de Moda) - Guará II, Brasília
+          </a>
+        </p>
       </div>
     </section>
 
@@ -62,8 +72,8 @@
     </section>
 
     <div class="flork-container">
-      <img src="{{ url_for('static', filename='flork.avif') }}" alt="Flork Meme" class="flork-img">
-      <div class="flork-balao">Presença confirmada</div>
+      <img src="{{ url_for('static', filename='flork.png') }}" alt="Flork Meme" class="flork-img">
+      <div class="flork-balao">Confirme a sua presença</div>
     </div>
   </div>
 
