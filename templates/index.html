@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aniversário Duplo - Heloíse & Victor</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <header class="hero">
+      <h1>🎉 Aniversário Duplo! 🎉</h1>
+      <p class="data">Terça-feira, **11/11** | Às **19:30h**</p>
+    </header>
+
+    <main class="content-wrapper">
+      <section class="aniversariantes">
+        <div class="perfil heloise">
+          <div class="foto-placeholder">Heloíse 12</div>
+          <h2>Heloíse Manuelle</h2>
+          <p>12 anos - A Doçura e a Aventura!</p>
+        </div>
+        <span class="separador"> & </span>
+        <div class="perfil victor">
+          <div class="foto-placeholder">Victor 17</div>
+          <h2>Victor Gabriel</h2>
+          <p>17 anos - O Estilo e a Vibe!</p>
+        </div>
+      </section>
+
+      <section class="informacoes">
+        <h3>📍 Onde Acontece a Festa?</h3>
+        <p class="local">
+          **À Lá Vontê Pizzaria**<br />
+          SRIA II (Polo de Moda) - Guará, Brasília
+        </p>
+        <a href="URL_DO_GOOGLE_MAPS" target="_blank" class="botao-mapa"
+          >Ver no Mapa (Clique!)</a
+        >
+      </section>
+
+      <section class="confirmacao-form">
+        <h3>✅ Confirme Sua Presença!</h3>
+        <form id="rsvp-form">
+          <label for="nome">Seu Nome Completo:</label>
+          <input
+            type="text"
+            id="nome"
+            required
+            placeholder="Ex: Maria da Silva"
+          />
+
+          <label for="participacao">Você irá?</label>
+          <select id="participacao" required>
+            <option value="" disabled selected>Selecione</option>
+            <option value="SIM">SIM! Estarei lá! 😊</option>
+            <option value="NÃO">NÃO poderei ir. 😔</option>
+          </select>
+
+          <button type="submit" class="botao-confirmar">
+            Enviar Confirmação
+          </button>
+          <p id="mensagem-status" class="status-message"></p>
+        </form>
+      </section>
+
+      <section class="lista-convidados">
+        <h3>👀 Quem Já Confirmou?</h3>
+        <div id="lista-confirmados"></div>
+        <p class="nota-lista">
+          *Esta lista é apenas um exemplo local para demonstração.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Aniversário Heloíse & Victor. Te esperamos lá!</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

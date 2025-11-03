@@ -1,0 +1,263 @@
+/* Estilos Gerais */
+:root {
+    --cor-principal-h: #ff69b4; /* Rosa Choque (Heloíse) */
+    --cor-principal-v: #00bcd4; /* Azul Turquesa (Victor) */
+    --cor-fundo: #f4f7f6;
+    --cor-texto: #333;
+    --sombra-leve: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* Header/Hero Section */
+.hero {
+    background: linear-gradient(135deg, var(--cor-principal-h), var(--cor-principal-v));
+    color: white;
+    padding: 60px 20px;
+    box-shadow: var(--sombra-leve);
+    animation: fadeIn 1s ease-out;
+}
+
+.hero h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.hero .data {
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+/* Content Wrapper */
+.content-wrapper {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Aniversariantes Section */
+.aniversariantes {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.perfil {
+    flex: 1;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: var(--sombra-leve);
+    transition: transform 0.3s;
+}
+
+.perfil:hover {
+    transform: translateY(-5px);
+}
+
+.heloise { border: 4px solid var(--cor-principal-h); }
+.victor { border: 4px solid var(--cor-principal-v); }
+
+.foto-placeholder {
+    width: 120px;
+    height: 120px;
+    background: #ccc;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    line-height: 120px;
+    font-size: 1.1em;
+    font-weight: 700;
+    color: white;
+    /* Para adicionar fotos reais, substitua o background: #ccc por: */
+    /* background-image: url('caminho/para/foto-heloise.jpg'); */
+    /* background-size: cover; */
+}
+
+.heloise .foto-placeholder { background-color: var(--cor-principal-h); }
+.victor .foto-placeholder { background-color: var(--cor-principal-v); }
+
+.separador {
+    font-size: 2em;
+    align-self: center;
+    font-weight: 900;
+    color: #999;
+    display: none; /* Esconde em telas grandes */
+}
+
+/* Informacoes Section */
+.informacoes {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    box-shadow: var(--sombra-leve);
+}
+
+.informacoes h3 {
+    color: var(--cor-principal-v);
+    margin-bottom: 15px;
+    font-size: 1.8em;
+}
+
+.local {
+    font-size: 1.1em;
+    margin-bottom: 20px;
+}
+
+.botao-mapa {
+    display: inline-block;
+    background-color: var(--cor-principal-v);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: background-color 0.3s;
+}
+
+.botao-mapa:hover {
+    background-color: #0097a7;
+}
+
+/* Forms e Confirmação */
+.confirmacao-form, .lista-convidados {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    box-shadow: var(--sombra-leve);
+}
+
+.confirmacao-form h3 {
+    color: var(--cor-principal-h);
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+#rsvp-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#rsvp-form label {
+    align-self: flex-start;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+#rsvp-form input, #rsvp-form select {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.botao-confirmar {
+    background-color: var(--cor-principal-h);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 700;
+    transition: background-color 0.3s;
+}
+
+.botao-confirmar:hover {
+    background-color: #e65a9e;
+}
+
+.status-message {
+    margin-top: 15px;
+    font-weight: 700;
+}
+
+/* Lista de Convidados */
+.lista-convidados h3 {
+    color: #4CAF50; /* Verde para sucesso (confirmação) */
+    margin-bottom: 15px;
+}
+
+#lista-confirmados {
+    text-align: left;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+}
+
+#lista-confirmados p {
+    padding: 5px 0;
+    border-bottom: 1px dotted #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#lista-confirmados p:last-child {
+    border-bottom: none;
+}
+
+.status-sim { color: #4CAF50; font-weight: 700; }
+.status-nao { color: #f44336; font-weight: 700; }
+
+.nota-lista {
+    margin-top: 10px;
+    font-size: 0.8em;
+    color: #999;
+}
+
+/* Footer */
+footer {
+    background: var(--cor-texto);
+    color: white;
+    padding: 20px;
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+/* Responsividade para Mobile */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.2em;
+    }
+
+    .aniversariantes {
+        flex-direction: column;
+    }
+    
+    .perfil {
+        margin-bottom: 20px;
+    }
+
+    .separador {
+        display: block; /* Mostra o separador no mobile */
+        margin: -10px 0 10px;
+    }
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

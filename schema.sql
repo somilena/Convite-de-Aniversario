@@ -1,0 +1,9 @@
+-- schema.sql
+DROP TABLE IF EXISTS rsvps;
+
+CREATE TABLE rsvps (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    participacao TEXT NOT NULL, -- 'SIM' ou 'NAO'
+    timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
