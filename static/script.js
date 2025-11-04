@@ -6,7 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const rsvpForm = document.getElementById('rsvp-form');
     const successMessage = document.getElementById('success-message');
     const florkForm = document.querySelector('.flork-container-form');
-    
+
+    // 💥 ADICIONE A REFERÊNCIA AO NOVO BOTÃO 💥
+    const confirmarOutroBtn = document.getElementById('confirmar-outro-btn');
+
     // API Endpoints (caminhos do Flask)
     const formApiEndpoint = '/api/confirmar';
     const listaApiEndpoint = '/api/confirmados';
@@ -15,11 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- CÓDIGO FINAL (PARA O FLASK) ---
     async function handleFormSubmit(event) {
         event.preventDefault();
-        
+
         const nome = document.getElementById('nome').value;
         const participacao = document.getElementById('participacao').value;
         const statusMessage = document.getElementById('mensagem-status');
-        
+
         if (!nome || !participacao) {
             statusMessage.textContent = 'Por favor, preencha todos os campos.';
             statusMessage.style.color = '#f44336';
@@ -41,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 rsvpForm.style.display = 'none';
                 if (florkForm) florkForm.style.display = 'none';
                 if (successMessage) successMessage.style.display = 'block';
-                
+
                 // Atualiza o contador de confirmados
                 atualizarContador();
 
@@ -56,7 +59,27 @@ document.addEventListener('DOMContentLoaded', () => {
             statusMessage.style.color = '#f44336';
         }
     }
-    
+
+    // 💥 ADICIONE O EVENTO DO NOVO BOTÃO 💥
+    if (confirmarOutroBtn) {
+        confirmarOutroBtn.addEventListener('click', () => {
+            // Esconde a mensagem de sucesso
+            if (successMessage) {
+                successMessage.style.display = 'none';
+            }
+
+            // Mostra o formulário de novo
+            if (rsvpForm) {
+                rsvpForm.style.display = 'block';
+            }
+
+            // Mostra o Flork de novo
+            if (florkForm) {
+                florkForm.style.display = 'block';
+            }
+        });
+    }
+
     // Ativa o formulário real
     if (rsvpForm) {
         rsvpForm.addEventListener('submit', handleFormSubmit);
@@ -103,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
             contadorElemento.textContent = '?';
         }
     }
-    
+
     // --- Gatilhos dos Botões do Modal ---
 
     // Abre o Modal e carrega os nomes
@@ -137,11 +160,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.stopPropagation();
                 const isHeloise = card.querySelector('.heloise-chapeu');
                 foto.style.borderColor = isHeloise ? 'var(--cor-balao-rosa)' : 'var(--cor-balao-azul)';
-                
+
                 const rect = foto.getBoundingClientRect();
                 const burstX = rect.left + (rect.width / 2);
                 const burstY = rect.top + (rect.height / 2);
-                createConfettiBurst(burstX, burstY); 
+                createConfettiBurst(burstX, burstY);
             });
             foto.addEventListener('mouseleave', (event) => {
                 foto.style.borderColor = 'white';
@@ -189,9 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             isPlaying = !isPlaying;
         });
-        musicaFundo.volume = 0.3;
+        musicaFundo.volume = 0.1;
     }
-    
+
     // --- ATUALIZA O CONTADOR QUANDO A PÁGINA CARREGA ---
     atualizarContador();
 

@@ -62,7 +62,7 @@ def confirmar_presenca():
     participacao = data.get('participacao', '').upper()
     
     if not nome or participacao not in ['SIM', 'NAO']:
-        return jsonify({'message': 'Dados inválidos.'}), 400
+        return jsonify({'message': 'Você não tem escolha!'}), 400
 
     conn = None
     try:

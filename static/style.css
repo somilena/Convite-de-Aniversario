@@ -1001,6 +1001,28 @@ body {
   }
 }
 
+/* --- 13. ESTILO DO BOTÃO "CONFIRMAR OUTRO" --- */
+.botao-confirmar-outro {
+  background-color: transparent;
+  color: var(--cor-texto-secundario);
+  border: 2px solid #ccc;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.9em;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 25px;
+  /* Espaço acima do botão */
+}
+
+.botao-confirmar-outro:hover {
+  background-color: #f0f0f8;
+  border-color: #aaa;
+  color: var(--cor-texto-principal);
+}
+
 /* --- 8. RESPONSIVIDADE (Mobile) --- */
 
 /* Este código só afeta telas menores que 768px (celulares e tablets pequenos) */
@@ -1071,15 +1093,34 @@ body {
 
   /* Ajusta o Flork no formulário */
   .flork-container-form {
-    width: 100px;
-    height: 110px;
-    bottom: -15px;
-    right: -10px;
+    width: 80px;
+    /* Reduzimos o Flork para caber melhor */
+    height: 90px;
+    /* Altura proporcional */
+
+    bottom: 0px;
+    /* Coloca o Flork na borda inferior do card */
+    right: 0px;
+    /* Cola o Flork na borda direita do card */
+
+    z-index: 1;
   }
 
   .flork-balao-form {
-    font-size: 0.8em;
-    top: 5px;
-    left: -10px;
+    font-size: 0.65em;
+    /* Fonte ainda menor */
+    top: -15px;
+    /* Sobe o balão mais acima da cabeça do Flork */
+    left: -18px;
+    /* Mais para a esquerda, para o balão caber dentro */
+    padding: 4px 7px;
+    /* Menos padding */
+    width: max-content;
+    /* A largura se ajusta ao conteúdo */
+    white-space: nowrap;
+    /* Impede quebra de linha */
+    transform: rotate(-10deg);
+    /* Mantém a inclinação */
+    text-align: right;
   }
 }
