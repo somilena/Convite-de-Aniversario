@@ -363,6 +363,7 @@ body {
   /* Sombra mais suave */
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 /* Títulos das seções (Poppins) */
