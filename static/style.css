@@ -647,15 +647,25 @@ body {
   }
 
   .flork-container-form {
-    width: 100px;
-    height: 110px;
+    width: 120px; /* Um pouco maior para não ficar minúsculo */
+    height: 130px;
     bottom: -15px;
-    right: -10px;
+    right: -10px; /* Joga um pouco mais para a direita para caber */
+    /* Ou se preferir que ele fique mais dentro: right: 0; e width: 100px; */
   }
   .flork-balao-form {
     font-size: 0.8em;
     top: 5px;
-    left: -10px;
+    left: -10px; /* Ajusta a posição do balão em relação ao Flork */
+    padding: 6px 10px; /* Menos padding */
+  }
+
+  /* --- Opcional: Ajuste do ícone de confete no título do Formulário --- */
+  .confirmacao-form h3 .titulo-icone,
+  .lista-convidados h3 .titulo-icone {
+    width: 28px; /* Ícone um pouco menor para telas pequenas */
+    height: 28px;
+    margin-right: 5px; /* Ajusta o espaçamento */
   }
 }
 
