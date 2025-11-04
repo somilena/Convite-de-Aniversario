@@ -97,37 +97,41 @@ body {
   /* Escondido no Desktop por padrão */
 }
 
-/* --- 3. CABEÇALHO (NOVO VISUAL - LIMPO E MODERNO) --- */
-
+/* --- 3. CABEÇALHO COM FOTOS E LOGO (NOVA VERSÃO) --- */
 .header-novo {
   display: flex;
-  /* Mude para 'center' para o logo ficar no meio em telas grandes */
+  align-items: center;
+  /* Alinha verticalmente no centro */
+
+  /* 💥 A MUDANÇA ESTÁ AQUI: Centraliza e controla o espaço 💥 */
   justify-content: center;
-  align-items: flex-start;
+  /* Centraliza os itens */
+  gap: 50px;
+  /* Espaço entre os itens (Heloíse, Logo, Victor) */
+
   flex-wrap: wrap;
-  gap: 30px;
-  /* Espaçamento entre os itens */
-  margin-bottom: 40px;
-  padding-top: 20px;
+  /* Permite quebrar linha em telas menores */
+  margin-bottom: 60px;
+  /* Mantém o espaço abaixo do cabeçalho */
 }
 
-/* O novo contêiner para o logo entre as fotos */
+/* Logo central (entre as fotos) */
 .logo-fotos-central {
   display: flex;
-  /* Para centralizar o conteúdo verticalmente */
+  flex-direction: column;
   align-items: center;
-  /* Centraliza verticalmente */
-  justify-content: center;
-  /* Centraliza horizontalmente */
-  height: 250px;
-  /* Altura para alinhar com as fotos */
-  margin: 0 15px;
-  /* Margem lateral para não encostar nas fotos */
+  text-align: center;
+  order: 2;
+  /* Garante que fique no meio, entre as fotos */
+
+  /* 💥 Ajuste a margem superior se precisar de mais espaço 💥 */
+  margin-top: -30px;
+  /* Sobe a logo um pouco para diminuir o espaço */
 }
 
 /* A imagem da logo entre as fotos */
 .logo-entre-fotos {
-  width: 200px;
+  width: 250px;
   /* Ajuste o tamanho da logo aqui */
   height: auto;
   opacity: 0.95;
