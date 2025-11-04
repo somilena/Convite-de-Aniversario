@@ -595,14 +595,50 @@ body {
 }
 
 /* --- 8. RESPONSIVIDADE (Mobile) --- */
+
 @media (max-width: 768px) {
   body {
     padding: 20px 0;
   }
 
   .container {
-    margin: 20px;
+    margin: 15px;
     padding: 20px;
+  }
+
+  /* --- A CORREÇÃO (Menos Espaço Vertical) --- */
+
+  .header-novo {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* <-- DIMINUÍDO (Era 60px) */
+    margin-bottom: 20px;
+  }
+
+  .pessoa-card {
+    width: 90%;
+    margin-top: 40px; /* <-- DIMINUÍDO (Era 70px) */
+    margin-bottom: 30px; /* <-- DIMINUÍDO (Era 50px) */
+    order: 1;
+  }
+
+  .logo-fotos-central {
+    order: 2;
+    height: auto;
+    margin-top: -20px; /* Sobe um pouco a logo */
+    margin-bottom: 10px;
+  }
+
+  .logo-entre-fotos {
+    width: 130px;
+  }
+
+  .titulo-principal {
+    font-size: 3.2em;
+  }
+
+  .detalhes-evento {
+    font-size: 1.1em;
   }
 
   .form-e-lista {
@@ -610,21 +646,16 @@ body {
     gap: 30px;
   }
 
-  .titulo-principal {
-    font-size: 3em;
+  .flork-container-form {
+    width: 100px;
+    height: 110px;
+    bottom: -15px;
+    right: -10px;
   }
-
-  .nomes-idades {
-    flex-direction: column;
-    align-items: center;
-    gap: 80px;
-    /* Mais espaço entre eles no mobile */
-  }
-
-  .pessoa {
-    width: 90%;
-    margin-top: 70px;
-    margin-bottom: 50px;
+  .flork-balao-form {
+    font-size: 0.8em;
+    top: 5px;
+    left: -10px;
   }
 }
 
