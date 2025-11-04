@@ -1,5 +1,3 @@
-# app.py
-
 from flask import Flask, render_template, request, jsonify, url_for
 import psycopg2
 import os
@@ -16,45 +14,12 @@ app = Flask(__name__)
 # Configurações para desenvolvimento
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 
-from flask_livereload import LiveReload # Pacote para recarga automática no navegador
-
-# -----------------------------------------------------------------
-# 1. Configuração do Ambiente
-# -----------------------------------------------------------------
-# Carrega variáveis do arquivo .env (apenas localmente)
-load_dotenv()
-
-# Obtém variáveis do ambiente (ou do .env se local). 
-# A senha de admin será 'admin' se configurada no .env ou no Render.
-DATABASE_URL = os.environ.get('DATABASE_URL')
-ADMIN_TOKEN = os.environ.get('ADMIN_TOKEN', 'senha_super_secreta_default') 
-
-app = Flask(__name__)
-
-# Configurações essenciais para desenvolvimento
-app.config['SECRET_KEY'] = os.urandom(24) # Recomendado para Flask
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0 # Desativa cache de arquivos estáticos (CSS/JS)
-
-# -----------------------------------------------------------------
-# 2. Inicializa o LiveReload
-# -----------------------------------------------------------------
-# O LiveReload só é ativo no modo de desenvolvimento (debug=True)
-if app.config.get("DEBUG"):
-    try:
-        LiveReload(app)
-        print("✅ LiveReload ATIVO.")
-    except Exception as e:
-        print(f"⚠️ Erro ao ativar LiveReload. Instale o pacote: {e}")
-
 
 
 # --- Funções do Banco de Dados ---
 def get_db_connection():
     if not DATABASE_URL:
         raise EnvironmentError("DATABASE_URL não configurada.")
-        # Se falhar aqui, verifique se a DATABASE_URL está no seu .env
-        raise EnvironmentError("DATABASE_URL não configurada. Verifique as variáveis de ambiente.")
-        
     return psycopg2.connect(DATABASE_URL)
 
 def init_db():
@@ -62,8 +27,6 @@ def init_db():
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-        
-        # Cria a tabela rsvps com colunas nome, participação e ID serial
         cur.execute("""
             CREATE TABLE IF NOT EXISTS rsvps (
                 id SERIAL PRIMARY KEY,
@@ -75,7 +38,6 @@ def init_db():
         conn.commit()
         cur.close()
         print("✅ Tabela rsvps verificada.")
-        print("✅ Tabela rsvps verificada/criada no PostgreSQL.")
     except Exception as e:
         print(f"❌ ERRO CRÍTICO ao inicializar o BD: {e}")
         raise e
@@ -86,11 +48,6 @@ def init_db():
 init_db() # Roda a verificação do BD ao iniciar
 
 # --- Rotas da Aplicação ---
-# GARANTE A CRIAÇÃO DA TABELA NA INICIALIZAÇÃO DO SERVIDOR (Para Gunicorn e Local)
-init_db()
-
-
-# --- 3. Rotas da Aplicação ---
 
 @app.route('/')
 def index():
@@ -111,18 +68,14 @@ def confirmar_presenca():
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-
-        # Verifica se o convidado já existe
         cur.execute("SELECT id FROM rsvps WHERE nome = %s", (nome,))
         existente = cur.fetchone()
         
         if existente:
-            # Atualiza
             cur.execute("UPDATE rsvps SET participacao = %s, timestamp = CURRENT_TIMESTAMP WHERE id = %s",
                          (participacao, existente[0]))
             message = "Confirmação atualizada com sucesso!"
         else:
-            # Insere
             cur.execute("INSERT INTO rsvps (nome, participacao) VALUES (%s, %s)", 
                          (nome, participacao))
             message = "Confirmação enviada com sucesso!"
@@ -141,7 +94,6 @@ def confirmar_presenca():
 @app.route('/api/confirmados', methods=['GET'])
 def listar_confirmados():
     """API para listar os convidados que confirmaram 'SIM' (para o modal)."""
-    """API para listar os convidados que confirmaram 'SIM' (visível no convite)."""
     conn = None
     try:
         conn = get_db_connection()
@@ -163,30 +115,17 @@ def admin_dashboard():
     token_fornecido = request.args.get('token')
     if token_fornecido != ADMIN_TOKEN:
         return "Acesso Negado.", 403
-# -----------------------------------------------------------------
-# 🔒 Rotas de Administração
-# -----------------------------------------------------------------
-
-@app.route('/admin', methods=['GET'])
-def admin_dashboard():
-    """Dashboard para visualizar todas as confirmações."""
-    # O token deve ser 'admin' se configurado no ambiente
-    token_fornecido = request.args.get('token')
-    if token_fornecido != ADMIN_TOKEN:
-        return "Acesso Negado: Token de administrador inválido.", 403
 
     conn = None
     try:
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute("SELECT id, nome, participacao, timestamp FROM rsvps ORDER BY timestamp DESC")
-        
         rsvps = [
             {'id': row[0], 'nome': row[1], 'participacao': row[2], 'data': row[3].strftime("%d/%m %H:%M")}
             for row in cur.fetchall()
         ]
         cur.close()
-        # Passa o token de volta para o JavaScript do admin.html usar na exclusão
         return render_template('admin.html', rsvps=rsvps, admin_token=ADMIN_TOKEN)
     except Exception as e:
         return f"Erro ao carregar dashboard: {e}", 500
@@ -200,8 +139,6 @@ def excluir_rsvp(rsvp_id):
     token_fornecido = request.json.get('token')
     if token_fornecido != ADMIN_TOKEN:
         return jsonify({'success': False, 'message': 'Token inválido.'}), 403
-        return jsonify({'success': False, 'message': 'Token de administrador inválido.'}), 403
-
     conn = None
     try:
         conn = get_db_connection()
@@ -220,6 +157,4 @@ def excluir_rsvp(rsvp_id):
 
 # --- Ponto de Entrada ---
 if __name__ == '__main__':
-
-    # 💥 DEBUG=TRUE ATIVADO PARA O LIVERELOAD FUNCIONAR!
     app.run(host='0.0.0.0', port=5000, debug=True)
