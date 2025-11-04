@@ -28,43 +28,37 @@ body {
   overflow-x: hidden;
 }
 
-/* --- 1. FUNDO E ANIMAÇÕES (Camada 100 - NA FRENTE E TRANSPARENTE) --- */
-
 .baloes-animados {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 100; /* NA FRENTE de tudo */
-  opacity: 0.6; /* TRANSPARENTE (Ajuste se quiser) */
+  z-index: 1;
+  /* CAMADA 1 */
   overflow: hidden;
-  pointer-events: none; /* Deixa clicar através dele */
+  pointer-events: none;
 }
 
-/* CORRETO: .balao E .confete (com vírgula) */
 .balao,
 .confete {
   position: absolute;
-  bottom: -300px; /* Começa BEM abaixo da tela */
-  height: auto; /* Deixa o JS definir a altura ou ser automático */
-  animation: floatUp 25s linear infinite; /* A animação de subida */
+  bottom: -150px;
+  height: auto;
+  opacity: 0.7;
+  animation: floatUp 25s linear infinite;
 }
 
-/* Garante que imagens de confete não sejam redondas */
-.confete {
-  border-radius: 0;
-}
-
-/* Animação de subida (Corrigindo o opacity: 10) */
 @keyframes floatUp {
   0% {
     transform: translateY(0) translateX(0px);
-    opacity: 0.8; /* CORRIGIDO (Era 10, o que é inválido) */
+    opacity: 10.0;
   }
+
   50% {
     transform: translateX(15px);
   }
+
   100% {
     transform: translateY(-120vh) translateX(-10px);
     opacity: 0;
@@ -223,7 +217,7 @@ body {
 
 /* O NOME (Fonte bonita) */
 .nome-pessoa {
-  font-family: "Pacifico", cursive;
+  font-family: 'Pacifico', cursive;
   /* Fonte bonita para o nome */
   font-size: 2.8em;
   /* Tamanho grande */
@@ -234,7 +228,7 @@ body {
   transition: all 0.3s ease-in-out;
 }
 
-/* Cor do Victor */
+/* Cor do Victor (Agora usando o seletor correto) */
 .pessoa-card:nth-child(3) .nome-pessoa {
   color: var(--cor-balao-azul);
   /* Azul */
@@ -242,7 +236,7 @@ body {
 
 /* A IDADE (Fonte divertida) */
 .idade-pessoa {
-  font-family: "Fredoka One", cursive;
+  font-family: 'Fredoka One', cursive;
   /* Fonte divertida */
   font-size: 1.3em;
   color: var(--cor-texto-secundario);
@@ -264,11 +258,12 @@ body {
 }
 
 .titulo-principal {
-  font-family: "Fredoka One", cursive;
+  font-family: 'Fredoka One', cursive;
   font-size: 5em;
   color: var(--cor-balao-azul);
   margin: 0 0 25px 0;
-  text-shadow: 3px 3px 0px rgba(255, 255, 255, 0.7),
+  text-shadow:
+    3px 3px 0px rgba(255, 255, 255, 0.7),
     4px 4px 10px rgba(0, 0, 0, 0.15);
   display: inline-block;
   animation: bounceIn 1s ease-out forwards;
@@ -333,7 +328,7 @@ body {
 }
 
 .detalhes-evento strong {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   /* Fonte de destaque */
   font-weight: 600;
 }
@@ -363,7 +358,6 @@ body {
   /* Sombra mais suave */
   position: relative;
   overflow: hidden;
-  box-sizing: border-box;
 }
 
 /* Títulos das seções (Poppins) */
@@ -390,7 +384,7 @@ body {
   display: block;
   text-align: left;
   margin-bottom: 8px;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   /* <-- NOVA FONTE DE LABEL */
   font-weight: 600;
   font-size: 1.1em;
@@ -429,7 +423,7 @@ body {
 
 /* Botão (Nova Cor Neutra/Jovial e Novo Hover) */
 .botao-confirmar {
-  background-color: #6a5acd;
+  background-color: #6A5ACD;
   /* <-- NOVA COR (SlateBlue) */
   color: white;
   padding: 16px 30px;
@@ -448,7 +442,7 @@ body {
 }
 
 .botao-confirmar:hover {
-  background-color: #5a4cad;
+  background-color: #5A4CAD;
   /* Cor mais escura */
   /* Nova transição (sombra cresce) */
   box-shadow: 0 8px 25px rgba(106, 90, 205, 0.6);
@@ -480,14 +474,14 @@ body {
 #lista-confirmados p {
   background-color: #f0f0f8;
   /* Fundo mais neutro (cinza/azulado) */
-  color: #4b5563;
+  color: #4B5563;
   /* Cor de texto mais escura */
   padding: 10px 18px;
   /* Mais padding */
   border-radius: 10px;
   margin: 0;
   font-weight: bold;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   /* Fonte Poppins */
   font-size: 0.95em;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
@@ -509,14 +503,14 @@ body {
 }
 
 .success-title {
-  font-family: "Pacifico", cursive;
+  font-family: 'Pacifico', cursive;
   font-size: 2.2em;
-  color: #4caf50;
+  color: #4CAF50;
   margin-bottom: 10px;
 }
 
 .success-phrase {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 1.1em;
   color: var(--cor-texto-secundario);
 }
@@ -562,7 +556,7 @@ body {
   top: 0;
   left: -20px;
   transform: rotate(-10deg);
-  font-family: "Fredoka One", cursive;
+  font-family: 'Fredoka One', cursive;
   font-size: 0.9em;
   color: var(--cor-texto-principal);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -596,50 +590,14 @@ body {
 }
 
 /* --- 8. RESPONSIVIDADE (Mobile) --- */
-
 @media (max-width: 768px) {
   body {
     padding: 20px 0;
   }
 
   .container {
-    margin: 15px;
+    margin: 20px;
     padding: 20px;
-  }
-
-  /* --- A CORREÇÃO (Menos Espaço Vertical) --- */
-
-  .header-novo {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px; /* <-- DIMINUÍDO (Era 60px) */
-    margin-bottom: 20px;
-  }
-
-  .pessoa-card {
-    width: 90%;
-    margin-top: 40px; /* <-- DIMINUÍDO (Era 70px) */
-    margin-bottom: 30px; /* <-- DIMINUÍDO (Era 50px) */
-    order: 1;
-  }
-
-  .logo-fotos-central {
-    order: 2;
-    height: auto;
-    margin-top: -20px; /* Sobe um pouco a logo */
-    margin-bottom: 10px;
-  }
-
-  .logo-entre-fotos {
-    width: 130px;
-  }
-
-  .titulo-principal {
-    font-size: 3.2em;
-  }
-
-  .detalhes-evento {
-    font-size: 1.1em;
   }
 
   .form-e-lista {
@@ -647,27 +605,21 @@ body {
     gap: 30px;
   }
 
-  .flork-container-form {
-    position: absolute;
-    width: 90px; /* Reduzimos um pouco mais o Flork */
-    height: 100px; /* Altura proporcional */
-
-    bottom: 0px; /* Coloca o Flork na borda inferior do card */
-    right: 5px; /* Coloca o Flork a 5px da borda direita do card */
-
-    z-index: 1;
-    /* Garante que o Flork fique acima do botão, se for o caso */
+  .titulo-principal {
+    font-size: 3em;
   }
 
-  .flork-balao-form {
-    font-size: 0.7em; /* Fonte ainda menor */
-    top: -10px; /* Sobe o balão um pouco acima do Flork */
-    left: -20px; /* Mais para a esquerda, para o balão caber dentro */
-    padding: 5px 8px; /* Menos padding */
-    width: max-content; /* A largura se ajusta ao conteúdo */
-    white-space: nowrap; /* Impede quebra de linha */
-    transform: rotate(-10deg); /* Mantém a inclinação */
-    text-align: right;
+  .nomes-idades {
+    flex-direction: column;
+    align-items: center;
+    gap: 80px;
+    /* Mais espaço entre eles no mobile */
+  }
+
+  .pessoa {
+    width: 90%;
+    margin-top: 70px;
+    margin-bottom: 50px;
   }
 }
 
@@ -733,8 +685,7 @@ body {
   }
 
   100% {
-    transform: translate(var(--confetti-end-x), var(--confetti-end-y))
-      rotate(720deg);
+    transform: translate(var(--confetti-end-x), var(--confetti-end-y)) rotate(720deg);
     opacity: 0;
   }
 }
@@ -764,7 +715,7 @@ body {
 }
 
 .contador-numero {
-  font-family: "Fredoka One", cursive;
+  font-family: 'Fredoka One', cursive;
   font-size: 4em;
   /* Um pouco maior */
   color: var(--cor-balao-rosa);
@@ -790,7 +741,7 @@ body {
 }
 
 .contador-frase {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.1em;
   color: var(--cor-texto-secundario);
   margin: 5px 0 0 0;
@@ -891,11 +842,11 @@ body {
 
 #modal-lista-nomes p {
   background-color: #f0f0f8;
-  color: #4b5563;
+  color: #4B5563;
   padding: 10px 18px;
   border-radius: 10px;
   font-weight: bold;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1em;
   margin: 0;
   width: 80%;
@@ -976,7 +927,7 @@ body {
 }
 
 .controle-musica:hover {
-  background-color: #7ccd7c;
+  background-color: #7CCD7C;
   /* Verde mais claro no hover */
   transform: scale(1.1) rotate(5deg);
   /* Gira menos no hover */
@@ -1023,5 +974,88 @@ body {
 
   100% {
     box-shadow: 0 4px 15px rgba(255, 192, 203, 0.4);
+  }
+}
+
+/* --- 8. RESPONSIVIDADE (Mobile) --- */
+
+/* Este código só afeta telas menores que 768px (celulares e tablets pequenos) */
+@media (max-width: 768px) {
+
+  body {
+    padding: 20px 0;
+    /* Menos preenchimento no corpo */
+  }
+
+  .container {
+    margin: 15px;
+    /* Menor margem */
+    padding: 20px;
+  }
+
+  /* --- A MÁGICA RESPONSIVA (EMPILHAMENTO) --- */
+
+  .header-novo {
+    flex-direction: column;
+    /* FORÇA O EMPILHAMENTO (um em cima do outro) */
+    align-items: center;
+    /* Centraliza os cards */
+    gap: 60px;
+    /* Espaço grande entre Heloíse e Victor */
+    margin-bottom: 20px;
+  }
+
+  /* Faz os cards ocuparem a tela */
+  .pessoa-card {
+    width: 90%;
+    /* Ocupa 90% da tela do celular */
+    margin-top: 70px;
+    margin-bottom: 50px;
+    order: 1;
+    /* Heloise e Victor vêm primeiro */
+  }
+
+  /* Joga a logo para o final do empilhamento */
+  .logo-fotos-central {
+    order: 2;
+    /* A logo vai para DEPOIS das fotos */
+    height: auto;
+    /* Remove a altura fixa */
+    margin-top: -30px;
+    /* Sobe um pouco a logo */
+  }
+
+  .logo-entre-fotos {
+    width: 130px;
+    /* Logo menor no mobile */
+  }
+
+  .titulo-principal {
+    font-size: 3.2em;
+    /* Fonte menor no mobile */
+  }
+
+  .detalhes-evento {
+    font-size: 1.1em;
+  }
+
+  /* Empilha o formulário e a lista */
+  .form-e-lista {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  /* Ajusta o Flork no formulário */
+  .flork-container-form {
+    width: 100px;
+    height: 110px;
+    bottom: -15px;
+    right: -10px;
+  }
+
+  .flork-balao-form {
+    font-size: 0.8em;
+    top: 5px;
+    left: -10px;
   }
 }
