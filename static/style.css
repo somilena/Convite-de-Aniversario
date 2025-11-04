@@ -647,15 +647,26 @@ body {
   }
 
   .flork-container-form {
-    width: 100px;
-    height: 110px;
-    bottom: -15px;
-    right: -10px;
+    position: absolute;
+    width: 90px; /* Reduzimos um pouco mais o Flork */
+    height: 100px; /* Altura proporcional */
+
+    bottom: 0px; /* Coloca o Flork na borda inferior do card */
+    right: 5px; /* Coloca o Flork a 5px da borda direita do card */
+
+    z-index: 1;
+    /* Garante que o Flork fique acima do botão, se for o caso */
   }
+
   .flork-balao-form {
-    font-size: 0.8em;
-    top: 5px;
-    left: -10px;
+    font-size: 0.7em; /* Fonte ainda menor */
+    top: -10px; /* Sobe o balão um pouco acima do Flork */
+    left: -20px; /* Mais para a esquerda, para o balão caber dentro */
+    padding: 5px 8px; /* Menos padding */
+    width: max-content; /* A largura se ajusta ao conteúdo */
+    white-space: nowrap; /* Impede quebra de linha */
+    transform: rotate(-10deg); /* Mantém a inclinação */
+    text-align: right;
   }
 }
 
