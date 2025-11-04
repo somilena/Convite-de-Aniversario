@@ -647,29 +647,15 @@ body {
   }
 
   .flork-container-form {
-    width: 90px; /* Reduzimos mais o Flork */
-    height: 100px;
-    bottom: -10px; /* Sobe um pouco mais */
-    right: 0px; /* Cola ele na borda direita do cartão */
-    z-index: 1; /* Garante que ele fique acima dos elementos do formulário */
+    width: 100px;
+    height: 110px;
+    bottom: -15px;
+    right: -10px;
   }
   .flork-balao-form {
-    font-size: 0.7em; /* Fonte ainda menor */
-    top: 0px; /* Sobe o balão para cima da cabeça */
-    left: -15px; /* Ajusta mais para a esquerda do Flork */
-    padding: 5px 8px; /* Menos padding */
-    width: max-content; /* Largura se ajusta ao conteúdo */
-    white-space: nowrap; /* Impede quebra de linha */
-    transform: translateX(-100%); /* Move o balão para dentro */
-    text-align: right; /* Alinha o texto à direita no balão */
-  }
-
-  /* --- Opcional: Ajuste do ícone de confete no título do Formulário --- */
-  .confirmacao-form h3 .titulo-icone,
-  .lista-convidados h3 .titulo-icone {
-    width: 28px; /* Ícone um pouco menor para telas pequenas */
-    height: 28px;
-    margin-right: 5px; /* Ajusta o espaçamento */
+    font-size: 0.8em;
+    top: 5px;
+    left: -10px;
   }
 }
 
