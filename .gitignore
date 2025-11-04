@@ -1,0 +1,5 @@
+# Arquivos gerados/locais a serem ignorados
+.env
+database.db
+__pycache__/
+# ... (outras linhas existentes)

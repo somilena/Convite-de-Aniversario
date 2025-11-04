@@ -4,68 +4,137 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎉 Convite de Aniversário Heloíse & Victor 🎉</title>
+  <title>Convite Heloíse & Victor</title>
+
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans:wght@400;700&display=swap"
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Lato:wght@400;700&family=Pacifico&family=Poppins:wght@600;700&display=swap"
     rel="stylesheet">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon.jpg') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 
 <body>
+
+  <audio id="musica-fundo" loop>
+    <source src="{{ url_for('static', filename='parabens-pra-voce.mp3') }}" type="audio/mpeg">
+    Seu navegador não suporta o elemento de áudio.
+  </audio>
+
+  <div id="controle-musica-btn" class="controle-musica">
+    <i class="fa-solid fa-play"></i>
+  </div>
+  <div class="baloes-animados"></div>
+
   <div class="container">
-    <header class="header">
-      <div class="nomes-idades">
-        <div class="pessoa">
-          <img src="https://via.placeholder.com/150/ffc0cb/000000?text=Heloise" alt="Foto da Heloíse"
-            class="foto-redonda">
-          <span class="idade amarelo">12 ANOS</span>
-          <span class="nome-sub rosa">DA HELOISE</span>
+
+    <header class="header-novo">
+
+      <div class="pessoa-card">
+        <div class="foto-container">
+          <img src="{{ url_for('static', filename='heloise.jpeg') }}" alt="Foto da Heloíse" class="foto-redonda-nova">
+          <img src="{{ url_for('static', filename='chapeu_heloise.png') }}" alt="Chapéu de Festa" class="chapeu-novo heloise-chapeu">
         </div>
-        <div class="pessoa">
-          <img src="https://via.placeholder.com/150/87ceeb/000000?text=Victor" alt="Foto do Victor"
-            class="foto-redonda">
-          <span class="idade verde">17 ANOS</span>
-          <span class="nome-sub azul">DO VICTOR</span>
-        </div>
+        <h2 class="nome-pessoa">Heloíse</h2>
+        <p class="idade-pessoa">12 ANOS</p>
       </div>
-      <h1 class="titulo-principal">🎉 Venha Comemorar! 🎉</h1>
+
+      <div class="logo-fotos-central">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo Celebre Conosco" class="logo-entre-fotos">
+      </div>
+
+      <div class="pessoa-card">
+        <div class="foto-container">
+          <img src="{{ url_for('static', filename='victor.jpeg') }}" alt="Foto do Victor" class="foto-redonda-nova">
+          <img src="{{ url_for('static', filename='chapeu_victor.png') }}" alt="Chapéu de Festa" class="chapeu-novo victor-chapeu">
+        </div>
+        <h2 class="nome-pessoa">Victor</h2>
+        <p class="idade-pessoa">17 ANOS</p>
+      </div>
+
     </header>
 
-    <section class="detalhes-evento">
-      <p><strong>Dia:</strong> 11/11</p>
-      <p><strong>Horário:</strong> Às 19h</p>
-      <p><strong>Local:</strong> À Lá Vontê Pizzaria <br> SRIA II (Polo de Moda) - Guará II</p>
-    </section>
-
-    <section class="confirmacao-form">
-      <h3>✅ Confirme Sua Presença!</h3>
-      <form id="rsvp-form">
-        <label for="nome">Seu Nome Completo:</label>
-        <input type="text" id="nome" required placeholder="Ex: Maria da Silva">
-
-        <label for="participacao">Você irá?</label>
-        <select id="participacao" required>
-          <option value="" disabled selected>Selecione</option>
-          <option value="SIM">SIM! Estarei lá! 😊</option>
-          <option value="NÃO">NÃO poderei ir. 😔</option>
-        </select>
-
-        <button type="submit" class="botao-confirmar">Enviar Confirmação</button>
-        <p id="mensagem-status" class="status-message"></p>
-      </form>
-    </section>
-
-    <section class="lista-convidados">
-      <h3>🥳 Confirmados:</h3>
-      <div id="lista-confirmados">
+    <section class="titulo-e-detalhes">
+      <div class="imagem-final-container">
+        <img src="{{ url_for('static', filename='venha_comemorar.png') }}" alt="Venha Comemorar!" class="imagem-final">
+      </div>
+      <div class="detalhes-evento">
+        <p>Dia: <strong>11/11</strong> | Horário: <strong>19:30</strong></p>
+        <p><strong>Localização:</strong></p>
+        <p>
+          <a href="http://googleusercontent.com/maps.google.com/6" target="_blank" class="link-mapa">
+            <strong>À Lá Vontê Pizzaria</strong> <br>
+            SRIA II (Polo de Moda) - Guará, Brasília
+          </a>
+        </p>
       </div>
     </section>
 
-    <div class="flork-container">
-      <div class="flork-balao">Presença confirmada</div>
+    <div class="form-e-lista">
+
+      <section class="confirmacao-form">
+
+        <h3>
+          <img src="{{ url_for('static', filename='check.gif') }}" alt="Checklist" class="titulo-icone">
+          Confirme a sua presença!
+        </h3>
+        
+        <form id="rsvp-form">
+          <label for="nome">Nome:</label>
+          <input type="text" id="nome" required placeholder="Digite seu nome aqui...">
+          <label for="participacao">Você irá?</label>
+          <select id="participacao" required>
+            <option value="" disabled selected>Selecione uma opção...</option>
+            <option value="SIM">SIM! Estarei lá! 😊</option>
+            <option value="NÃO">NÃO poderei ir. 😔</option>
+          </select>
+          <button type="submit" class="botao-confirmar">Enviar</button>
+          <p id="mensagem-status" class="status-message"></p>
+        </form>
+
+        <div id="success-message" style="display: none;">
+          <img src="{{ url_for('static', filename='aguardo_voce.png') }}" alt="Aguardo você!" class="success-image">
+          <h2 class="success-title">Uhuuul! Presença confirmada!</h2>
+          <p class="success-phrase">Agora é só esperar o dia e preparar o estômago para a pizza!</p>
+        </div>
+
+        <div class="flork-container-form"> 
+          <img src="{{ url_for('static', filename='flork.avif') }}" alt="Flork Meme" class="flork-img-form">
+          <div class="flork-balao-form">Confirme aqui!</div>
+        </div>
+
+      </section>
+
+      <section class="lista-convidados">
+
+        <h3>
+          <img src="{{ url_for('static', filename='festa.png') }}" alt="Festa" class="titulo-icone">
+          Quem já confirmou?
+        </h3>
+
+        <div class="contador-container">
+          <span id="contador-numero" class="contador-numero">0</span> <p class="contador-frase">Confirmados!</p>
+        </div>
+
+        <button id="ver-lista-btn" class="botao-ver-lista">Lista dos confirmados</button>
+
+      </section>
+
+    </div> <div id="modal-overlay" class="modal-overlay hidden">
+      <div class="modal-content">
+        <button id="modal-close-btn" class="modal-close">×</button>
+
+        <img src="{{ url_for('static', filename='comendo.png') }}" alt="Flork Comilão" class="modal-flork-img">
+
+        <h3>Lista de Comilões Confirmados</h3>
+
+        <div id="modal-lista-nomes">
+          </div>
+      </div>
     </div>
-  </div>
-
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </div><script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="{{ url_for('static', filename='animation.js') }}"></script>
 </body>
-
 </html>
