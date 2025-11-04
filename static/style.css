@@ -15,6 +15,17 @@
   --cor-sombra: rgba(100, 100, 150, 0.15);
 }
 
+/* --- 0. Reset Global do Box Sizing --- */
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
 /* --- 1. FUNDO E ANIMAÇÕES (Camada 1) --- */
 
 body {
@@ -620,6 +631,19 @@ body {
     width: 90%;
     margin-top: 70px;
     margin-bottom: 50px;
+  }
+
+  .confirmacao-form,
+  .lista-convidados {
+    min-width: 0;
+    /* Remove a largura mínima de 300px no celular */
+    width: 100%;
+    /* Faz o card ocupar 100% do espaço disponível */
+  }
+
+  .form-e-lista {
+    flex-direction: column;
+    gap: 30px;
   }
 }
 
