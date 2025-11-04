@@ -1,396 +1,978 @@
-/* Importação de fontes do Google Fonts (Fredoka One para títulos, Open Sans para texto geral) */
-@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans:wght@400;700&display=swap");
+/* Importação das 3 Fontes */
+@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans:wght@400;700&family=Pacifico&display=swap");
 
 :root {
-  /* Definição de cores baseadas na imagem */
-  --cor-balao-rosa: #ffc0cb; /* Rosa claro */
-  --cor-balao-azul: #87ceeb; /* Azul céu/turquesa */
-  --cor-balao-amarelo: #ffff99; /* Amarelo claro */
-  --cor-balao-verde: #90ee90; /* Verde claro */
-  --cor-fundo-geral: #f8f8f8; /* Branco gelo para o fundo */
+  --cor-balao-rosa: #ffc0cb;
+  --cor-balao-azul: #87ceeb;
+  --cor-balao-amarelo: #fafad2;
+  --cor-balao-verde: #98fb98;
+  --cor-fundo-geral: #fdfcff;
   --cor-texto-principal: #333;
-  --cor-texto-secundario: #666;
-  --cor-botao-confirmar: #ff69b4; /* Rosa choque */
-  --cor-botao-confirmar-hover: #ff1493; /* Rosa mais escuro */
-  --cor-borda-input: #ccc;
-  --cor-status-sucesso: #4caf50;
-  --cor-status-erro: #f44336;
-  --cor-shadow: rgba(0, 0, 0, 0.05);
+  --cor-texto-secundario: #555;
+  --cor-botao-confirmar: #ff69b4;
+  --cor-botao-confirmar-hover: #ff1493;
+  --cor-borda-input: #ddd;
+  --cor-sombra: rgba(100, 100, 150, 0.15);
 }
 
+/* --- 1. FUNDO E ANIMAÇÕES (Camada 1) --- */
+
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Lato", sans-serif;
+  /* <-- NOVA FONTE PADRÃO (Elegante) */
   margin: 0;
-  padding: 0;
+  padding: 40px 10px;
   background-color: var(--cor-fundo-geral);
   color: var(--cor-texto-principal);
   line-height: 1.6;
-  overflow-x: hidden; /* Evita scroll horizontal */
-
-  /* Fundo com padrão de balões e confetes - ATIVADO! */
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 60V0h60v60h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6H0zm0 0h60V0H0z' fill='%2387CEEB'%3E%3C/path%3E%3Cpath d='M60 0v60h-4V0h4z' fill='%23FFC0CB'%3E%3C/path%3E%3Cpath d='M60 0v60h-4V0h4z' fill='%23FFFF99'%3E%3C/path%3E%3Cpath d='M60 0v60h-4V0h4z' fill='%2390EE90'%3E%3C/path%3E%3C/g%3E%3C/svg%3E"),
-    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 60V0h60v60h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6h-4v-6H0zm0 0h60V0H0z' fill='%23FFC0CB'%3E%3C/path%3E%3Cpath d='M60 0v60h-4V0h4z' fill='%2387CEEB'%3E%3C/path%3E%3Cpath d='M60 0v60h-4V0h4z' fill='%23FFFF99'%3E%3C/path%3E%3Cpath d='M60 0v60h-4V0h4z' fill='%2390EE90'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
-  background-size: 150px, 100px; /* Tamanho dos padrões */
-  background-position: 0 0, 50px 50px; /* Posição para sobrepor */
-  background-repeat: repeat; /* Repete o padrão */
+  overflow-x: hidden;
 }
+
+.baloes-animados {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  /* CAMADA 1 */
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.balao,
+.confete {
+  position: absolute;
+  bottom: -150px;
+  height: auto;
+  opacity: 0.7;
+  animation: floatUp 25s linear infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) translateX(0px);
+    opacity: 10.0;
+  }
+
+  50% {
+    transform: translateX(15px);
+  }
+
+  100% {
+    transform: translateY(-120vh) translateX(-10px);
+    opacity: 0;
+  }
+}
+
+/* --- 2. O CARTÃO BRANCO (Camada 5) --- */
 
 .container {
   max-width: 800px;
-  margin: 30px auto;
-  padding: 20px 40px;
+  margin: 0 auto;
+  padding: 30px 40px;
   background-color: white;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px var(--cor-shadow);
+  border-radius: 25px;
+  box-shadow: 0 15px 40px var(--cor-sombra);
   text-align: center;
   position: relative;
+  z-index: 5;
+  /* CAMADA 5 */
 }
 
-.header {
-  margin-bottom: 30px;
-}
+/* --- 3. CABEÇALHO (NOVO VISUAL - LIMPO E MODERNO) --- */
 
-.nomes-idades {
+.header-novo {
   display: flex;
-  justify-content: space-around;
-  align-items: flex-end; /* Alinha as bases das caixas */
-  flex-wrap: wrap; /* Quebra linha em telas menores */
-  gap: 20px;
-  margin-bottom: 30px;
+  /* Mude para 'center' para o logo ficar no meio em telas grandes */
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 30px;
+  /* Espaçamento entre os itens */
+  margin-bottom: 40px;
+  padding-top: 20px;
 }
 
-.pessoa {
-  position: relative; /* ESSENCIAL para chapéu e balões de idade/nome */
+/* O novo contêiner para o logo entre as fotos */
+.logo-fotos-central {
   display: flex;
-  flex-direction: column;
+  /* Para centralizar o conteúdo verticalmente */
   align-items: center;
-  background-color: transparent; /* Fundo transparente para não esconder os balões */
-  border-radius: 15px;
-  padding: 0; /* Removido padding para fotos e chapéus ficarem mais juntos */
-  box-shadow: none; /* Removido sombra do container pessoa */
-  transition: transform 0.3s ease;
-  width: 200px; /* Largura para cada pessoa */
-  margin-top: 50px;
+  /* Centraliza verticalmente */
+  justify-content: center;
+  /* Centraliza horizontalmente */
+  height: 250px;
+  /* Altura para alinhar com as fotos */
+  margin: 0 15px;
+  /* Margem lateral para não encostar nas fotos */
 }
 
-.pessoa:hover {
-  transform: translateY(-5px);
-}
-
-.foto-redonda {
-  width: 150px; /* Tamanho da foto */
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 5px solid white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  margin-bottom: 0px;
-  z-index: 1; /* Garante que a foto fique acima de balões de fundo se houver */
-}
-
-/* Estilo para os chapéus */
-.chapeu {
-  position: absolute;
-  width: 100px; /* Ajuste o tamanho do chapéu conforme a imagem */
+/* A imagem da logo entre as fotos */
+.logo-entre-fotos {
+  width: 200px;
+  /* Ajuste o tamanho da logo aqui */
   height: auto;
-  z-index: 2; /* Garante que o chapéu fique acima da foto */
-  pointer-events: none; /* Impede que o mouse interaja com o chapéu */
+  opacity: 0.95;
+  animation: logoPop 1s ease-out forwards;
+  /* Animação de entrada */
 }
 
-.heloise-chapeu {
-  top: -20px; /* Ajuste para posicionar na cabeça da Heloíse */
-  left: 50%;
-  transform: translateX(-50%) rotate(-10deg); /* Leve rotação */
+@keyframes logoPop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+
+  80% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
-.victor-chapeu {
-  top: -20px; /* Ajuste para posicionar na cabeça do Victor */
-  left: 50%;
-  transform: translateX(-50%) rotate(10deg); /* Leve rotação na outra direção */
+/* Resto do CSS do header continua igual (.pessoa-card, .foto-container, etc.) */
+
+/* O "card" de cada pessoa */
+.pessoa-card {
+  position: relative;
+  width: 250px;
+  /* Um card maior */
+  text-align: center;
+  /* Animação de entrada suave */
+  animation: fadeIn 1s ease-out;
 }
 
-.idade {
-  font-family: "Fredoka One", cursive;
-  font-size: 2.2em;
-  color: var(--cor-texto-principal);
-  padding: 5px 15px;
-  border-radius: 10px;
+/* O contêiner da foto + chapéu */
+.foto-container {
+  position: relative;
+  /* Para o chapéu se posicionar */
+  margin-bottom: 15px;
+  /* Espaço entre a foto e o nome */
+}
+
+/* A foto (VOLTA PARA REDONDA) */
+.foto-redonda-nova {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  /* <-- VOLTA PARA CÍRCULO PERFEITO */
+  object-fit: cover;
+  object-position: center 25%;
+  border: 6px solid white;
+  /* Borda branca padrão */
+  box-shadow: 0 10px 30px var(--cor-sombra);
+  z-index: 10;
+  position: relative;
+  cursor: pointer;
+  /* <-- INDICA QUE É CLICÁVEL */
+  transition: transform 0.2s ease-out, border-color 0.2s ease-out;
+  /* Transição para o clique */
+}
+
+/* Efeito de hover (opcional, mas moderno) */
+.pessoa-card:hover .foto-redonda-nova {
+  transform: scale(1.03);
+  border-radius: 50% 70% 50% 60%;
+  /* Muda a forma no hover */
+}
+
+/* O Chapéu (Reajustado para a nova foto) */
+.chapeu-novo {
   position: absolute;
-  top: -30px; /* Ajustado para ficar um pouco acima do chapéu */
-  left: 50%;
-  transform: translateX(-50%) rotate(5deg); /* Leve rotação */
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-  z-index: 0; /* Fica atrás da foto e do chapéu */
-  min-width: 100px;
-}
-
-/* Cores específicas para as idades */
-.idade.amarelo {
-  background-color: var(--cor-balao-amarelo);
-  color: var(--cor-texto-principal);
-}
-.idade.verde {
-  background-color: var(--cor-balao-verde);
-  color: var(--cor-texto-principal);
-}
-
-.nome-sub {
-  font-family: "Fredoka One", cursive;
-  font-size: 1.5em;
-  position: absolute;
-  bottom: -20px; /* Posiciona o nome abaixo da foto */
+  width: 140px;
+  /* <-- Um pouco maior */
+  height: auto;
+  top: -65px;
+  /* <-- Um pouco mais para cima */
   left: 50%;
   transform: translateX(-50%);
-  padding: 5px 15px;
-  border-radius: 8px;
-  color: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  z-index: 0; /* Fica atrás da foto e do chapéu */
-  min-width: 150px;
+  z-index: 20;
+  /* Camada da Frente (ACIMA DA FOTO) */
+  pointer-events: none;
+  transition: transform 0.4s ease;
+  transition: all 0.3s ease-in-out;
 }
 
-/* Cores de fundo para os nomes */
-.nome-sub.rosa {
-  background-color: var(--cor-balao-rosa);
-}
-.nome-sub.azul {
-  background-color: var(--cor-balao-azul);
+/* Rotação específica para a Heloíse */
+.heloise-chapeu {
+  transform: translateX(-60%) rotate(-20deg);
+  /* <-- Mais para a esquerda e mais rotação */
 }
 
+/* Rotação específica para o Victor */
+.victor-chapeu {
+  transform: translateX(-40%) rotate(15deg);
+  /* <-- Mais para a direita e mais rotação */
+}
+
+/* Efeito de hover (opcional) */
+.pessoa-card:hover .chapeu-novo {
+  transform: translateX(-50%) rotate(0deg) scale(1.05);
+  /* Chapéu levanta no hover */
+}
+
+/* O NOME (Fonte bonita) */
+.nome-pessoa {
+  font-family: 'Pacifico', cursive;
+  /* Fonte bonita para o nome */
+  font-size: 2.8em;
+  /* Tamanho grande */
+  margin: 0;
+  line-height: 1.2;
+  color: var(--cor-botao-confirmar);
+  /* Rosa */
+  transition: all 0.3s ease-in-out;
+}
+
+/* Cor do Victor */
+.pessoa-card:nth-child(2) .nome-pessoa {
+  color: var(--cor-balao-azul);
+  /* Azul */
+}
+
+/* A IDADE (Fonte divertida) */
+.idade-pessoa {
+  font-family: 'Fredoka One', cursive;
+  /* Fonte divertida */
+  font-size: 1.3em;
+  color: var(--cor-texto-secundario);
+  margin: 0;
+  margin-top: -5px;
+  /* Sobe um pouco para perto do nome */
+  letter-spacing: 1px;
+  /* Espaçamento */
+  transition: all 0.3s ease-in-out;
+}
+
+/* --- 4. SEÇÕES BEM DISTRIBUÍDAS --- */
 .titulo-e-detalhes {
   text-align: center;
-  margin-top: 20px;
-  margin-bottom: 30px;
+  margin-top: 0px;
+  margin-bottom: 40px;
+  border-bottom: 2px dashed #eee;
+  padding-bottom: 30px;
 }
 
 .titulo-principal {
-  font-family: "Fredoka One", cursive;
-  font-size: 3.5em;
-  color: var(--cor-texto-principal);
-  margin: 0;
-  padding: 0;
-  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.15);
-  display: block;
+  font-family: 'Fredoka One', cursive;
+  font-size: 5em;
+  color: var(--cor-balao-azul);
+  margin: 0 0 25px 0;
+  text-shadow:
+    3px 3px 0px rgba(255, 255, 255, 0.7),
+    4px 4px 10px rgba(0, 0, 0, 0.15);
+  display: inline-block;
+  animation: bounceIn 1s ease-out forwards;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+
+  60% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+
+  80% {
+    transform: scale(0.9);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .detalhes-evento {
-  margin-top: 15px;
-  font-size: 1.1em;
-  line-height: 1.5;
+  font-size: 1.2em;
+  line-height: 1.7;
   color: var(--cor-texto-secundario);
 }
 
-/* Estilo para o link do mapa */
 .link-mapa {
-  color: var(--cor-texto-principal); /* Cor do texto do link */
-  text-decoration: none; /* Remove sublinhado padrão */
-  font-weight: bold; /* Deixa negrito como o resto do local */
-  transition: color 0.3s ease;
+  color: var(--cor-balao-azul);
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
 }
 
 .link-mapa:hover {
-  color: var(--cor-balao-azul); /* Muda de cor ao passar o mouse */
-  text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
+  color: var(--cor-botao-confirmar-hover);
+  text-decoration: underline;
+  transform: translateY(-2px);
 }
 
-/* Formulário de Confirmação */
-.confirmacao-form {
-  background-color: #fff9f9;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+/* --- 4.1. ESTILO DOS NOVOS ÍCONES --- */
+.titulo-icone {
+  width: 32px;
+  height: 32px;
+
+  /* --- AJUSTE O ESPAÇO AQUI --- */
+  margin-right: 0.4px;
+  /* Era 10px ou mais, 8px fica mais próximo */
+
+  vertical-align: bottom;
+  /* O 'display: flex' acima torna isso menos necessário, mas mantemos */
+}
+
+/* --- 4.2. AJUSTE NOS DETALHES DO EVENTO --- */
+.detalhes-evento p {
+  margin: 5px 0;
+  /* Menos espaço entre as linhas */
+}
+
+.detalhes-evento strong {
+  font-family: 'Poppins', sans-serif;
+  /* Fonte de destaque */
+  font-weight: 600;
+}
+
+/* --- 5. FORMULÁRIO E LISTA (Design Limpo Lado a Lado) --- */
+
+.form-e-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
   margin-top: 40px;
+  align-items: flex-start;
 }
 
-.confirmacao-form h3 {
-  /* Ajusta o título do formulário */
-  font-size: 1.8em;
+.confirmacao-form,
+.lista-convidados {
+  flex: 1;
+  min-width: 300px;
+  /* Cor mais neutra */
+  background-color: white;
+  border: 1px solid #f0f0f0;
+  /* Borda sutil */
+  padding: 30px;
+  border-radius: 20px;
+  /* Borda mais moderna */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  /* Sombra mais suave */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Títulos das seções (Poppins) */
+.confirmacao-form h3,
+.lista-convidados h3 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 1.9em;
   color: var(--cor-texto-principal);
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+
+  /* --- A CORREÇÃO ESTÁ AQUI --- */
+  display: flex;
+  /* 1. Transforma o H3 em um contêiner flexível */
+  align-items: center;
+  /* 2. Alinha o ícone e o texto verticalmente */
+  justify-content: center;
+  /* 3. Centraliza tudo no card */
 }
 
+/* Labels (Poppins) */
 .confirmacao-form label {
   display: block;
   text-align: left;
   margin-bottom: 8px;
-  font-weight: bold;
-  color: var(--cor-texto-principal);
+  font-family: 'Poppins', sans-serif;
+  /* <-- NOVA FONTE DE LABEL */
+  font-weight: 600;
+  font-size: 1.1em;
+  /* <-- Mais legível */
+  color: var(--cor-texto-secundario);
 }
 
+/* Inputs (Mais Elegantes) */
 .confirmacao-form input[type="text"],
 .confirmacao-form select {
-  width: calc(100% - 20px);
-  padding: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 18px;
+  /* Mais espaço interno */
   margin-bottom: 20px;
-  border: 2px solid var(--cor-borda-input);
-  border-radius: 10px;
+  border: 1px solid var(--cor-borda-input);
+  /* Borda mais fina */
+  border-radius: 12px;
+  /* Mais arredondado */
   font-size: 1.1em;
-  font-family: "Open Sans", sans-serif;
+  /* Fonte maior no input */
+  font-family: "Lato", sans-serif;
+  /* Fonte elegante */
   transition: all 0.3s ease;
+  background-color: #f9f9f9;
+  /* Fundo sutil */
 }
 
 .confirmacao-form input[type="text"]:focus,
 .confirmacao-form select:focus {
   border-color: var(--cor-balao-azul);
-  box-shadow: 0 0 8px rgba(135, 206, 235, 0.4);
+  background-color: white;
+  box-shadow: 0 0 10px rgba(135, 206, 235, 0.5);
   outline: none;
 }
 
+/* Botão (Nova Cor Neutra/Jovial e Novo Hover) */
 .botao-confirmar {
-  background-color: var(--cor-botao-confirmar);
+  background-color: #6A5ACD;
+  /* <-- NOVA COR (SlateBlue) */
   color: white;
-  padding: 15px 30px;
+  padding: 16px 30px;
+  /* Mais alto */
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 1.2em;
-  font-family: "Fredoka One", cursive;
+  font-family: "Poppins", sans-serif;
+  /* <-- NOVA FONTE (Poppins) */
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 20px rgba(106, 90, 205, 0.4);
+  /* Sombra da cor */
+  width: 100%;
 }
 
 .botao-confirmar:hover {
-  background-color: var(--cor-botao-confirmar-hover);
+  background-color: #5A4CAD;
+  /* Cor mais escura */
+  /* Nova transição (sombra cresce) */
+  box-shadow: 0 8px 25px rgba(106, 90, 205, 0.6);
   transform: translateY(-3px);
 }
 
 .status-message {
-  margin-top: 20px;
-  font-weight: bold;
-  font-size: 1.1em;
+  margin-top: 15px;
+  font-weight: 700;
 }
 
-/* Lista de Confirmados */
-.lista-convidados {
-  margin-top: 40px;
-  background-color: #f9f9ff;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-}
-
-.lista-convidados h3 {
-  /* Ajusta o título da lista */
-  font-size: 1.8em;
-  color: var(--cor-texto-principal);
-  margin-top: 0;
-  margin-bottom: 20px;
-}
-
+/* Lista de confirmados (Vertical) */
 #lista-confirmados {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  padding: 15px 0;
-  border-top: 1px solid #eee;
+  flex-direction: column;
+
+  /* --- ESTA É A MUDANÇA --- */
+  align-items: center;
+  /* Mude de 'flex-start' para 'center' */
+
+  gap: 12px;
+  padding-top: 15px;
+  border-top: 2px dashed #eee;
   margin-top: 20px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 #lista-confirmados p {
-  background-color: #e0f7fa;
-  color: #00796b;
-  padding: 8px 15px;
-  border-radius: 20px;
-  margin: 5px;
+  background-color: #f0f0f8;
+  /* Fundo mais neutro (cinza/azulado) */
+  color: #4B5563;
+  /* Cor de texto mais escura */
+  padding: 10px 18px;
+  /* Mais padding */
+  border-radius: 10px;
+  margin: 0;
   font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+  /* Fonte Poppins */
+  font-size: 0.95em;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-#lista-confirmados p span.status-sim {
-  color: #388e3c;
+/* Mensagem de Sucesso (após confirmar) */
+#success-message {
+  display: none;
+  text-align: center;
+  padding: 40px 20px;
+  animation: fadeIn 0.5s ease-out;
 }
 
-/* Flork (garante que ele fique no espaço de baixo) */
-.flork-container {
-  margin-top: 50px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  height: 180px;
-}
-
-.flork-img {
+.success-image {
   width: 150px;
+  max-width: 80%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.success-title {
+  font-family: 'Pacifico', cursive;
+  font-size: 2.2em;
+  color: #4CAF50;
+  margin-bottom: 10px;
+}
+
+.success-phrase {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.1em;
+  color: var(--cor-texto-secundario);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --- 6. FLORK (Dentro do Formulário) --- */
+.flork-container-form {
+  position: absolute;
+  bottom: -20px;
+  right: 5px;
+  width: 140px;
+  height: 150px;
+  pointer-events: none;
+}
+
+.flork-img-form {
+  width: 100%;
   height: auto;
   position: absolute;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
+  left: 0;
+  transform: rotate(-8deg);
+  z-index: 10;
 }
 
-.flork-balao {
+.flork-balao-form {
   background-color: white;
-  border: 2px solid #ffc0cb;
+  border: 2px solid #555;
   border-radius: 25px 25px 25px 5px;
-  padding: 10px 20px;
+  padding: 8px 12px;
   position: absolute;
-  bottom: 110px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: "Fredoka One", cursive;
-  font-size: 1.2em;
+  top: 0;
+  left: -20px;
+  transform: rotate(-10deg);
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.9em;
   color: var(--cor-texto-principal);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  z-index: 2;
+  z-index: 10;
   white-space: nowrap;
 }
 
-/* Responsividade básica */
+/* --- 7. IMAGEM FINAL (Flork "ja nao sou mais tao xovem") --- */
+.imagem-final-container {
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 2px dashed #eee;
+  text-align: center;
+}
+
+.imagem-final {
+  width: 200px;
+  height: auto;
+  transform: rotate(3deg);
+  animation: balancoSuave 4s ease-in-out infinite alternate;
+}
+
+@keyframes balancoSuave {
+  from {
+    transform: rotate(-3deg) scale(0.98);
+  }
+
+  to {
+    transform: rotate(3deg) scale(1.02);
+  }
+}
+
+/* --- 8. RESPONSIVIDADE (Mobile) --- */
 @media (max-width: 768px) {
+  body {
+    padding: 20px 0;
+  }
+
   .container {
-    margin: 20px auto;
-    padding: 15px;
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .form-e-lista {
+    flex-direction: column;
+    gap: 30px;
   }
 
   .titulo-principal {
-    font-size: 2.2em;
+    font-size: 3em;
   }
 
   .nomes-idades {
     flex-direction: column;
     align-items: center;
+    gap: 80px;
+    /* Mais espaço entre eles no mobile */
   }
 
   .pessoa {
-    width: 80%;
+    width: 90%;
+    margin-top: 70px;
+    margin-bottom: 50px;
+  }
+}
+
+/* --- ESTILOS PARA OS CONFEITES AO CLICAR NA FOTO --- */
+
+.confetti-burst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  /* Começa pequeno */
+  height: 1px;
+  /* Começa pequeno */
+  border-radius: 50%;
+  overflow: visible;
+  /* Permite que os confetes saiam da bolha */
+  pointer-events: none;
+  /* Para não bloquear cliques */
+  z-index: 100;
+  /* Acima de tudo! */
+  animation: explodeFadeOut 1s forwards;
+  /* Animação de explosão e desaparecimento */
+}
+
+/* Os confetes individuais */
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: transparent;
+  /* Cor padrão, o JS muda */
+  border-radius: 50%;
+  opacity: 0;
+  /* Começa invisível */
+  animation: fallAndFade 0.8s forwards;
+}
+
+@keyframes explodeFadeOut {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0);
   }
 
-  .idade {
-    font-size: 1.8em;
-    top: -10px;
-    right: -5px;
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
 
-  .nome-sub {
-    font-size: 1.2em;
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes fallAndFade {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
   }
 
-  h3 {
-    font-size: 1.5em;
+  10% {
+    opacity: 1;
   }
 
-  .confirmacao-form input[type="text"],
-  .confirmacao-form select,
-  .botao-confirmar {
-    width: 100%;
-    padding: 10px;
-    font-size: 1em;
+  100% {
+    transform: translate(var(--confetti-end-x), var(--confetti-end-y)) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* --- 9. ESTILOS DO CONTADOR E BOTÃO DE LISTA --- */
+
+.lista-convidados {
+  /* Garante que o conteúdo (botão, contador) se centralize */
+  align-items: center;
+  text-align: center;
+}
+
+/* Oculta a lista antiga (que agora está no modal) */
+#lista-confirmados {
+  display: none !important;
+}
+
+/* O contador */
+.contador-container {
+  margin: 25px 0;
+  padding: 20px;
+  background-color: #f0f0f8;
+  /* Cor neutra que já usamos */
+  border-radius: 12px;
+  border-top: 2px dashed #ddd;
+  border-bottom: 2px dashed #ddd;
+}
+
+.contador-numero {
+  font-family: 'Fredoka One', cursive;
+  font-size: 4em;
+  /* Um pouco maior */
+  color: var(--cor-balao-rosa);
+  /* Cor principal (rosa) */
+  line-height: 1;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  animation: pulseScale 2s infinite ease-in-out alternate;
+  /* Animação de pulso */
+}
+
+@keyframes pulseScale {
+  0% {
+    transform: scale(1);
   }
 
-  .flork-balao {
-    bottom: 80px;
-    font-size: 1em;
+  50% {
+    transform: scale(1.05);
   }
 
-  .chapeu {
-    width: 80px; /* Ajuste para chapéu menor em telas pequenas */
-    top: -15px;
+  100% {
+    transform: scale(1);
+  }
+}
+
+.contador-frase {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1em;
+  color: var(--cor-texto-secundario);
+  margin: 5px 0 0 0;
+}
+
+/* O botão "Ver a Lista" */
+.botao-ver-lista {
+  background-color: transparent;
+  color: var(--cor-balao-azul);
+  border: 2px solid var(--cor-balao-azul);
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-size: 1em;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.botao-ver-lista:hover {
+  background-color: var(--cor-balao-azul);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(135, 206, 235, 0.4);
+}
+
+/* --- 10. ESTILOS DO MODAL (POPUP) --- */
+
+/* Classe helper para esconder/mostrar */
+.hidden {
+  display: none !important;
+}
+
+/* O fundo escuro */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeInModal 0.3s ease-out;
+}
+
+/* O cartão branco do popup */
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 450px;
+  max-height: 80vh;
+  position: relative;
+  animation: scaleInModal 0.3s ease-out;
+}
+
+/* O botão 'X' de fechar */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2.5em;
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+.modal-content h3 {
+  margin-bottom: 25px;
+  /* Mais espaço abaixo do título do modal */
+}
+
+/* A lista de nomes dentro do modal */
+#modal-lista-nomes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 50vh;
+  /* Altura máxima da lista */
+  overflow-y: auto;
+  /* Scroll se a lista for grande */
+  align-items: center;
+  /* Centraliza os nomes */
+  padding-top: 15px;
+  border-top: 2px dashed #eee;
+}
+
+#modal-lista-nomes p {
+  background-color: #f0f0f8;
+  color: #4B5563;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1em;
+  margin: 0;
+  width: 80%;
+  text-align: center;
+}
+
+/* Animações do Modal */
+@keyframes fadeInModal {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleInModal {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --- 11. ESTILO DO FLORK NO MODAL --- */
+
+/* Centraliza o título que não tem mais ícone */
+.modal-content h3 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* A nova imagem 'comendo.png' no topo do modal */
+.modal-flork-img {
+  width: 150px;
+  /* Ajuste o tamanho se precisar */
+  height: auto;
+  border-radius: 10px;
+  /* Borda suave */
+  margin-bottom: 15px;
+  /* Espaço abaixo da imagem */
+  /* Se a imagem tiver fundo preto, adicione isso: */
+  /* mix-blend-mode: multiply; */
+}
+
+/* --- 12. ESTILO DO BOTÃO DE MÚSICA --- */
+
+.controle-musica {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 60px;
+  /* Um pouco maior */
+  height: 60px;
+  background-color: var(--cor-balao-verde);
+  /* Verde para o play (ou rosa se preferir) */
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  /* Ícone maior */
+  cursor: pointer;
+  z-index: 1001;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  /* Sombra mais marcada */
+  border: 3px solid white;
+  /* Borda branca para destacar */
+  transition: all 0.3s ease;
+  /* Adicionar um toque Flork (opcional) */
+  transform: rotate(-10deg);
+}
+
+.controle-musica:hover {
+  background-color: #7CCD7C;
+  /* Verde mais claro no hover */
+  transform: scale(1.1) rotate(5deg);
+  /* Gira menos no hover */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Estilo para quando estiver tocando (classe 'playing') */
+.controle-musica.playing {
+  background-color: var(--cor-balao-rosa);
+  /* Muda para rosa ao tocar */
+  transform: rotate(10deg);
+  /* Gira para o outro lado ao tocar */
+  animation: pulseIcon 1.5s infinite ease-in-out;
+}
+
+/* Opcional: Animação sutil para o ícone Flork */
+.controle-musica i {
+  animation: florkIconSway 3s infinite ease-in-out alternate;
+}
+
+@keyframes florkIconSway {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-3px) rotate(2deg);
+  }
+
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes pulseIcon {
+  0% {
+    box-shadow: 0 4px 15px rgba(255, 192, 203, 0.4);
+  }
+
+  /* Cor da sombra rosa */
+  50% {
+    box-shadow: 0 4px 30px rgba(255, 192, 203, 0.8);
+  }
+
+  100% {
+    box-shadow: 0 4px 15px rgba(255, 192, 203, 0.4);
   }
 }

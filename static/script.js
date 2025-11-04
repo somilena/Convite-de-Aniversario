@@ -1,92 +1,198 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const rsvpForm = document.getElementById("rsvp-form");
-  const statusMessage = document.getElementById("mensagem-status");
-  const listaConfirmadosDiv = document.getElementById("lista-confirmados");
+// static/script.js (VERSÃO FINAL PARA O FLASK)
 
-  // ==========================================================
-  // Função de LEITURA: Busca a lista da API Flask
-  // ==========================================================
-  const carregarLista = async () => {
-    listaConfirmadosDiv.innerHTML =
-      '<p style="text-align: center; color: #999;">Carregando lista do servidor...</p>';
+document.addEventListener('DOMContentLoaded', () => {
 
-    try {
-      // Chama o endpoint de API do Flask
-      const response = await fetch("/api/confirmados");
-      const confirmados = await response.json();
+    // --- Referências dos Elementos ---
+    const rsvpForm = document.getElementById('rsvp-form');
+    const successMessage = document.getElementById('success-message');
+    const florkForm = document.querySelector('.flork-container-form');
+    
+    // API Endpoints (caminhos do Flask)
+    const formApiEndpoint = '/api/confirmar';
+    const listaApiEndpoint = '/api/confirmados';
+    const contadorElemento = document.getElementById('contador-numero');
 
-      if (!response.ok) {
-        throw new Error(confirmados.message || "Erro desconhecido na API.");
-      }
+    // --- CÓDIGO FINAL (PARA O FLASK) ---
+    async function handleFormSubmit(event) {
+        event.preventDefault();
+        
+        const nome = document.getElementById('nome').value;
+        const participacao = document.getElementById('participacao').value;
+        const statusMessage = document.getElementById('mensagem-status');
+        
+        if (!nome || !participacao) {
+            statusMessage.textContent = 'Por favor, preencha todos os campos.';
+            statusMessage.style.color = '#f44336';
+            return;
+        }
 
-      listaConfirmadosDiv.innerHTML = "";
+        try {
+            // Envia os dados para o app.py
+            const response = await fetch(formApiEndpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome, participacao })
+            });
 
-      if (confirmados.length === 0) {
-        listaConfirmadosDiv.innerHTML =
-          '<p style="text-align: center; color: #999;">Ninguém confirmou presença (SIM) ainda.</p>';
-        return;
-      }
+            const result = await response.json();
 
-      // Exibe a lista
-      confirmados.forEach((nome) => {
-        const p = document.createElement("p");
-        // O status-sim será sempre 'VAI', pois a API filtra apenas o SIM
-        p.innerHTML = `<span>${nome}</span><span class="status-sim">VAI</span>`;
-        listaConfirmadosDiv.appendChild(p);
-      });
-    } catch (error) {
-      console.error("Erro ao buscar lista:", error);
-      listaConfirmadosDiv.innerHTML = `<p style="text-align: center; color: #f44336;">Erro ao carregar a lista. Recarregue a página.</p>`;
+            if (response.ok) {
+                // SUCESSO!
+                rsvpForm.style.display = 'none';
+                if (florkForm) florkForm.style.display = 'none';
+                if (successMessage) successMessage.style.display = 'block';
+                
+                // Atualiza o contador de confirmados
+                atualizarContador();
+
+            } else {
+                // Erro do servidor
+                statusMessage.textContent = result.message || 'Erro ao enviar.';
+                statusMessage.style.color = '#f44336';
+            }
+        } catch (error) {
+            // Erro de rede
+            statusMessage.textContent = 'Erro de conexão. Tente novamente.';
+            statusMessage.style.color = '#f44336';
+        }
     }
-  };
-
-  // Carrega a lista ao iniciar
-  carregarLista();
-
-  // ==========================================================
-  // Função de ESCRITA: Envia a confirmação para a API Flask
-  // ==========================================================
-  rsvpForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const nome = document.getElementById("nome").value.trim();
-    const participacao = document.getElementById("participacao").value;
-
-    if (!nome || !participacao) {
-      statusMessage.textContent = "Por favor, preencha todos os campos.";
-      statusMessage.style.color = "#f44336";
-      return;
+    
+    // Ativa o formulário real
+    if (rsvpForm) {
+        rsvpForm.addEventListener('submit', handleFormSubmit);
     }
 
-    const dadosEnvio = { nome, participacao };
+    // --- FUNÇÕES DO MODAL E CONTADOR ---
+    const verListaBtn = document.getElementById('ver-lista-btn');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    const modalListaNomes = document.getElementById('modal-lista-nomes');
 
-    try {
-      statusMessage.textContent = "Enviando confirmação...";
-      statusMessage.style.color = "#00bcd4";
+    // Função para carregar os nomes no Modal
+    async function carregarNomesModal() {
+        try {
+            const response = await fetch(listaApiEndpoint); // Chama o app.py
+            const nomes = await response.json();
 
-      const response = await fetch("/api/confirmar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dadosEnvio),
-      });
+            modalListaNomes.innerHTML = ''; // Limpa a lista de exemplos
 
-      const resultado = await response.json();
+            if (nomes.length === 0) {
+                modalListaNomes.innerHTML = '<p>Ninguém confirmou ainda...</p>';
+                return;
+            }
 
-      if (!response.ok) {
-        throw new Error(resultado.message || "Erro no servidor.");
-      }
+            nomes.forEach(nome => {
+                const p = document.createElement('p');
+                p.textContent = nome;
+                modalListaNomes.appendChild(p);
+            });
 
-      statusMessage.textContent = resultado.message;
-      statusMessage.style.color = "#4CAF50";
-      rsvpForm.reset();
-
-      // Atualiza a lista imediatamente após o envio bem-sucedido
-      carregarLista();
-      setTimeout(() => (statusMessage.textContent = ""), 5000);
-    } catch (error) {
-      console.error("Erro no envio:", error);
-      statusMessage.textContent = `Erro ao enviar confirmação: ${error.message}`;
-      statusMessage.style.color = "#f44336";
+        } catch (error) {
+            modalListaNomes.innerHTML = '<p>Erro ao carregar a lista.</p>';
+        }
     }
-  });
-});
+
+    // Função para atualizar o contador
+    async function atualizarContador() {
+        if (!contadorElemento) return;
+        try {
+            const response = await fetch(listaApiEndpoint);
+            const nomes = await response.json();
+            contadorElemento.textContent = nomes.length; // Atualiza o número
+        } catch (error) {
+            contadorElemento.textContent = '?';
+        }
+    }
+    
+    // --- Gatilhos dos Botões do Modal ---
+
+    // Abre o Modal e carrega os nomes
+    if (verListaBtn) {
+        verListaBtn.addEventListener('click', () => {
+            modalOverlay.classList.remove('hidden');
+            carregarNomesModal(); // Carrega a lista real
+        });
+    }
+    // Fecha o Modal (pelo 'X')
+    if (modalCloseBtn) {
+        modalCloseBtn.addEventListener('click', () => {
+            modalOverlay.classList.add('hidden');
+        });
+    }
+    // Fecha o Modal (clicando fora)
+    if (modalOverlay) {
+        modalOverlay.addEventListener('click', (event) => {
+            if (event.target === modalOverlay) {
+                modalOverlay.classList.add('hidden');
+            }
+        });
+    }
+
+    // --- CONFEITES AO PASSAR O MOUSE ---
+    const pessoaCards = document.querySelectorAll('.pessoa-card');
+    pessoaCards.forEach(card => {
+        const foto = card.querySelector('.foto-redonda-nova');
+        if (foto) {
+            foto.addEventListener('mouseenter', (event) => {
+                event.stopPropagation();
+                const isHeloise = card.querySelector('.heloise-chapeu');
+                foto.style.borderColor = isHeloise ? 'var(--cor-balao-rosa)' : 'var(--cor-balao-azul)';
+                
+                const rect = foto.getBoundingClientRect();
+                const burstX = rect.left + (rect.width / 2);
+                const burstY = rect.top + (rect.height / 2);
+                createConfettiBurst(burstX, burstY); 
+            });
+            foto.addEventListener('mouseleave', (event) => {
+                foto.style.borderColor = 'white';
+            });
+        }
+    });
+
+    // Função de criar confetes (exatamente como você tinha)
+    function createConfettiBurst(x, y) {
+        const burstContainer = document.createElement('div');
+        burstContainer.className = 'confetti-burst';
+        burstContainer.style.left = `${x}px`;
+        burstContainer.style.top = `${y}px`;
+        document.body.appendChild(burstContainer);
+        const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#795548', '#9e9e9e', '#607d8b'];
+        for (let i = 0; i < 30; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * 80 + 30;
+            confetti.style.setProperty('--confetti-end-x', `${Math.cos(angle) * distance}px`);
+            confetti.style.setProperty('--confetti-end-y', `${Math.sin(angle) * distance}px`);
+            burstContainer.appendChild(confetti);
+        }
+        burstContainer.addEventListener('animationend', () => {
+            burstContainer.remove();
+        });
+    }
+
+    // --- LÓGICA DO PLAYER DE MÚSICA ---
+    const musicaFundo = document.getElementById('musica-fundo');
+    const controleBtn = document.getElementById('controle-musica-btn');
+    if (musicaFundo && controleBtn) {
+        let isPlaying = false;
+        controleBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                musicaFundo.pause();
+                controleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                controleBtn.classList.remove('playing');
+            } else {
+                musicaFundo.play();
+                controleBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                controleBtn.classList.add('playing');
+            }
+            isPlaying = !isPlaying;
+        });
+        musicaFundo.volume = 0.3;
+    }
+    
+    // --- ATUALIZA O CONTADOR QUANDO A PÁGINA CARREGA ---
+    atualizarContador();
+
+}); // Fim do DOMContentLoaded
