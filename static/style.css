@@ -235,7 +235,7 @@ body {
 }
 
 /* Cor do Victor */
-.pessoa-card:nth-child(2) .nome-pessoa {
+.pessoa-card:nth-child(3) .nome-pessoa {
   color: var(--cor-balao-azul);
   /* Azul */
 }
