@@ -1,4 +1,4 @@
-// static/script.js (VERSÃO FINAL UNIFICADA E CORRIGIDA)
+// static/script.js (VERSÃO FINAL OTIMIZADA - COM CORREÇÃO DE DELAY)
 
 document.addEventListener("DOMContentLoaded", () => {
   // --- 1. LÓGICA DO FORMULÁRIO (E SUCESSO) ---
@@ -6,32 +6,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const successMessage = document.getElementById("success-message");
   const florkForm = document.querySelector(".flork-container-form");
   const statusMessage = document.getElementById("mensagem-status");
-  const formApiEndpoint = "/api/confirmar"; // Endpoint do Flask
-  const listaApiEndpoint = "/api/confirmados"; // Endpoint do Flask
+  const formApiEndpoint = "/api/confirmar";
+  const listaApiEndpoint = "/api/confirmados";
   const contadorElemento = document.getElementById("contador-numero");
 
   async function handleFormSubmit(event) {
     event.preventDefault();
     const nome = document.getElementById("nome").value.trim();
     const participacao = document.getElementById("participacao").value;
-
     if (!nome || !participacao) {
       statusMessage.textContent = "Por favor, preencha todos os campos.";
       statusMessage.style.color = "#f44336";
       return;
     }
-
     try {
       statusMessage.textContent = "Enviando...";
       statusMessage.style.color = "#00bcd4";
-
       const response = await fetch(formApiEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nome, participacao }),
       });
       const result = await response.json();
-
       if (response.ok) {
         rsvpForm.style.display = "none";
         if (florkForm) florkForm.style.display = "none";
@@ -46,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
       statusMessage.style.color = "#f44336";
     }
   }
-  // Ativa o formulário real (se ele existir)
   if (rsvpForm) {
     rsvpForm.addEventListener("submit", handleFormSubmit);
   }
@@ -199,50 +194,58 @@ document.addEventListener("DOMContentLoaded", () => {
     musicaFundo.volume = 0.3;
   }
 
-  // --- 5. LÓGICA DOS BALÕES DE FUNDO (DO 'animation.js') ---
+  // --- 5. LÓGICA DOS BALÕES DE FUNDO (COM CORREÇÃO DE DELAY) ---
   const animationContainer = document.querySelector(".baloes-animados");
-  if (!animationContainer) return;
+  if (animationContainer) {
+    const balloonImages = [
+      "static/fundo_balao1.png",
+      "static/fundo_balao2.png",
+      "static/fundo_balao3.png",
+      "static/fundo_balao4.png",
+    ];
+    const confeteImage = "static/confete.png";
 
-  const balloonImages = [
-    "static/fundo_balao1.png",
-    "static/fundo_balao2.png",
-    "static/fundo_balao3.png",
-    "static/fundo_balao4.png",
-  ];
-  // Usa a sua imagem de confete!
-  const confeteImage = "static/confete.png";
+    function createParticle(type) {
+      if (!document.body.contains(animationContainer)) return;
 
-  function createParticle(type) {
-    if (!document.body.contains(animationContainer)) return;
+      const particle = document.createElement("img");
+      particle.classList.add(type === "balao" ? "balao" : "confete");
 
-    const particle = document.createElement("img");
-    particle.classList.add(type);
+      if (type === "balao") {
+        const randomImage =
+          balloonImages[Math.floor(Math.random() * balloonImages.length)];
+        particle.src = randomImage;
+        particle.style.width = `${Math.random() * 80 + 100}px`;
+        particle.style.opacity = Math.random() * 0.5 + 0.4;
+      } else {
+        // type === 'confete'
+        particle.src = confeteImage;
+        particle.style.width = `${Math.random() * 15 + 10}px`;
+        particle.style.opacity = Math.random() * 0.7 + 0.3;
+        particle.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
+      }
 
-    if (type === "balao") {
-      const randomImage =
-        balloonImages[Math.floor(Math.random() * balloonImages.length)];
-      particle.src = randomImage;
-      particle.style.width = `${Math.random() * 80 + 100}px`; // Tamanho otimizado
-      particle.style.opacity = Math.random() * 0.5 + 0.4; // Um pouco mais visível
-    } else {
-      // type === 'confete'
-      particle.src = confeteImage;
-      particle.style.width = `${Math.random() * 15 + 10}px`;
-      particle.style.opacity = Math.random() * 0.7 + 0.3;
-      particle.style.filter = `hue-rotate(${Math.random() * 360}deg)`; // Muda a cor da imagem
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.animationDuration = `${Math.random() * 20 + 25}s`;
+
+      // 💥 A CORREÇÃO ESTÁ AQUI 💥
+      // Delay negativo (de 0 a -20 segundos)
+      // Faz o balão/confete começar em uma altura aleatória (já no meio da animação)
+      particle.style.animationDelay = `-${Math.random() * 20}s`;
+
+      animationContainer.appendChild(particle);
+      particle.addEventListener("animationend", () => particle.remove());
     }
-    particle.style.left = `${Math.random() * 100}%`;
-    particle.style.animationDuration = `${Math.random() * 20 + 25}s`; // Velocidade (Lenta)
-    particle.style.animationDelay = `${Math.random() * -10}s`;
-    animationContainer.appendChild(particle);
-    particle.addEventListener("animationend", () => particle.remove());
-  }
 
-  // Otimizado para menos "engasgo"
-  setInterval(() => createParticle("balao"), 5000); // 1 balão a cada 5 segundos
-  setInterval(() => createParticle("confete"), 1500); // 1 confete a cada 1.5 segundos
-  for (let i = 0; i < 2; i++) createParticle("balao"); // Menos no início
-  for (let i = 0; i < 10; i++) createParticle("confete"); // Menos no início
+    // Frequência (Otimizado para não engasgar)
+    setInterval(() => createParticle("balao"), 5000);
+    setInterval(() => createParticle("confete"), 1500);
+
+    // 💥 MAIS PARTÍCULAS NO INÍCIO 💥
+    // Cria muitos balões e confetes IMEDIATAMENTE para preencher a tela
+    for (let i = 0; i < 8; i++) createParticle("balao"); // Antes: 2
+    for (let i = 0; i < 25; i++) createParticle("confete"); // Antes: 10
+  }
 
   // --- FIM DO DOMContentLoaded ---
   atualizarContador();
