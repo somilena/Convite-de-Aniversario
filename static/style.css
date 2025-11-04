@@ -28,35 +28,43 @@ body {
   overflow-x: hidden;
 }
 
+/* --- 1. FUNDO E ANIMAÇÕES (Camada 100 - NA FRENTE E TRANSPARENTE) --- */
+
 .baloes-animados {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
-  /* CAMADA 1 */
+  z-index: 100; /* NA FRENTE de tudo */
+  opacity: 0.6; /* TRANSPARENTE (Ajuste se quiser) */
   overflow: hidden;
-  pointer-events: none;
+  pointer-events: none; /* Deixa clicar através dele */
 }
 
-.balao .confete {
+/* CORRETO: .balao E .confete (com vírgula) */
+.balao,
+.confete {
   position: absolute;
-  height: auto;
-  opacity: 1; /* A opacidade do .baloes-animados (0.6) controla */
-  animation: floatUp 25s linear infinite;
+  bottom: -300px; /* Começa BEM abaixo da tela */
+  height: auto; /* Deixa o JS definir a altura ou ser automático */
+  animation: floatUp 25s linear infinite; /* A animação de subida */
 }
 
+/* Garante que imagens de confete não sejam redondas */
+.confete {
+  border-radius: 0;
+}
+
+/* Animação de subida (Corrigindo o opacity: 10) */
 @keyframes floatUp {
   0% {
     transform: translateY(0) translateX(0px);
-    opacity: 10;
+    opacity: 0.8; /* CORRIGIDO (Era 10, o que é inválido) */
   }
-
   50% {
     transform: translateX(15px);
   }
-
   100% {
     transform: translateY(-120vh) translateX(-10px);
     opacity: 0;
