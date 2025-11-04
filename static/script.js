@@ -217,63 +217,16 @@ document.addEventListener("DOMContentLoaded", () => {
         musicaFundo.volume = 0.1;
     }
 
-    // --- 5. LÓGICA DOS BALÕES DE FUNDO (COM INTERAÇÃO DE CLIQUE) ---
+    // --- 5. LÓGICA DOS BALÕES DE FUNDO (COM CORREÇÃO DE DELAY) ---
     const animationContainer = document.querySelector(".baloes-animados");
     if (animationContainer) {
-
         const balloonImages = [
-            'static/fundo_balao1.png',
-            'static/fundo_balao2.png',
-            'static/fundo_balao3.png',
-            'static/fundo_balao4.png',
+            "static/fundo_balao1.png",
+            "static/fundo_balao2.png",
+            "static/fundo_balao3.png",
+            "static/fundo_balao4.png",
         ];
-        const confeteImage = 'static/confete.png';
-
-        // Nova função para criar explosão de confetes ao estourar
-        function createPopConfettiBurst(x, y) {
-            const burstContainer = document.createElement('div');
-            burstContainer.className = 'confetti-burst-pop'; // Nova classe para diferenciar
-            burstContainer.style.left = `${x}px`;
-            burstContainer.style.top = `${y}px`;
-            animationContainer.appendChild(burstContainer); // Adiciona ao container de animação
-
-            const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#795548', '#9e9e9e', '#607d8b'];
-
-            for (let i = 0; i < 10; i++) { // Cria 10 confetes para a explosão
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti'; // Usa a mesma classe de estilo para o confete
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                const angle = Math.random() * Math.PI * 2;
-                const distance = Math.random() * 50 + 20; // Menor explosão
-                confetti.style.setProperty('--confetti-end-x', `${Math.cos(angle) * distance}px`);
-                confetti.style.setProperty('--confetti-end-y', `${Math.sin(angle) * distance}px`);
-                burstContainer.appendChild(confetti);
-            }
-            burstContainer.addEventListener('animationend', () => burstContainer.remove());
-        }
-
-        // Nova função para lidar com o clique/toque no balão
-        function popBalloon(event) {
-            const particle = event.target;
-
-            // Impede que o clique se propague para elementos abaixo
-            event.stopPropagation();
-            event.preventDefault(); // Impede rolagem no celular, etc.
-
-            // Obter a posição do balão para soltar confetes
-            const rect = particle.getBoundingClientRect();
-            const burstX = rect.left + (rect.width / 2);
-            const burstY = rect.top + (rect.height / 2);
-            createPopConfettiBurst(burstX, burstY);
-
-            // Adiciona classe para animação de "estouro"
-            particle.classList.add('popping');
-
-            // Remove o balão depois da animação
-            particle.addEventListener('animationend', () => {
-                particle.remove();
-            }, { once: true }); // Executa o listener apenas uma vez
-        }
+        const confeteImage = "static/confete.png";
 
         function createParticle(type) {
             if (!document.body.contains(animationContainer)) return;
@@ -282,16 +235,13 @@ document.addEventListener("DOMContentLoaded", () => {
             particle.classList.add(type === "balao" ? "balao" : "confete");
 
             if (type === "balao") {
-                const randomImage = balloonImages[Math.floor(Math.random() * balloonImages.length)];
+                const randomImage =
+                    balloonImages[Math.floor(Math.random() * balloonImages.length)];
                 particle.src = randomImage;
                 particle.style.width = `${Math.random() * 80 + 100}px`;
                 particle.style.opacity = Math.random() * 0.5 + 0.4;
-
-                // 💥 ADICIONA EVENTO DE CLIQUE APENAS PARA BALÕES 💥
-                particle.addEventListener('click', popBalloon);
-                particle.addEventListener('touchstart', popBalloon, { passive: false }); // Para toque em celular
-
-            } else { // type === 'confete'
+            } else {
+                // type === 'confete'
                 particle.src = confeteImage;
                 particle.style.width = `${Math.random() * 15 + 10}px`;
                 particle.style.opacity = Math.random() * 0.7 + 0.3;
@@ -300,24 +250,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
             particle.style.left = `${Math.random() * 100}%`;
             particle.style.animationDuration = `${Math.random() * 20 + 25}s`;
+
+            // 💥 A CORREÇÃO ESTÁ AQUI 💥
+            // Delay negativo (de 0 a -20 segundos)
+            // Faz o balão/confete começar em uma altura aleatória (já no meio da animação)
             particle.style.animationDelay = `-${Math.random() * 20}s`;
 
             animationContainer.appendChild(particle);
-            // Remove o balão APENAS se ele chegar ao fim da animação normal (não estourado)
-            particle.addEventListener("animationend", (e) => {
-                if (!e.target.classList.contains('popping')) {
-                    e.target.remove();
-                }
-            });
+            particle.addEventListener("animationend", () => particle.remove());
         }
 
         // Frequência
         setInterval(() => createParticle("balao"), 5000);
-        setInterval(() => createParticle("confete"), 1500);
+        setInterval(() => createParticle("confete"), 750); // 💥 MUDANÇA: Mais confetes (de 1500ms para 750ms)
 
         // Partículas iniciais
         for (let i = 0; i < 8; i++) createParticle("balao");
-        for (let i = 0; i < 25; i++) createParticle("confete");
+        for (let i = 0; i < 50; i++) createParticle("confete"); // 💥 MUDANÇA: Mais confetes no início (de 25 para 50)
     }
 
     // --- FIM DO DOMContentLoaded ---

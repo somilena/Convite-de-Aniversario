@@ -15,17 +15,6 @@
   --cor-sombra: rgba(100, 100, 150, 0.15);
 }
 
-/* --- 0. Reset Global do Box Sizing --- */
-html {
-  box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
 /* --- 1. FUNDO E ANIMAÇÕES (Camada 1) --- */
 
 body {
@@ -39,31 +28,46 @@ body {
   overflow-x: hidden;
 }
 
+/* --- 1. FUNDO E ANIMAÇÕES (Camada 100 - NA FRENTE E TRANSPARENTE) --- */
+
 .baloes-animados {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
-  /* CAMADA 1 */
+  z-index: 100;
+  /* NA FRENTE de tudo */
+  opacity: 0.6;
+  /* TRANSPARENTE (Ajuste se quiser) */
   overflow: hidden;
   pointer-events: none;
+  /* Deixa clicar através dele */
 }
 
+/* CORRETO: .balao E .confete (com vírgula) */
 .balao,
 .confete {
   position: absolute;
-  bottom: -150px;
+  bottom: -300px;
+  /* Começa BEM abaixo da tela */
   height: auto;
-  opacity: 0.7;
+  /* Deixa o JS definir a altura ou ser automático */
   animation: floatUp 25s linear infinite;
+  /* A animação de subida */
 }
 
+/* Garante que imagens de confete não sejam redondas */
+.confete {
+  border-radius: 0;
+}
+
+/* Animação de subida (Corrigindo o opacity: 10) */
 @keyframes floatUp {
   0% {
     transform: translateY(0) translateX(0px);
-    opacity: 10.0;
+    opacity: 0.8;
+    /* CORRIGIDO (Era 10, o que é inválido) */
   }
 
   50% {
@@ -91,47 +95,37 @@ body {
   /* CAMADA 5 */
 }
 
-/* --- 2.8. TÍTULO APENAS PARA CELULAR --- */
-.titulo-celular {
-  display: none;
-  /* Escondido no Desktop por padrão */
-}
+/* --- 3. CABEÇALHO (NOVO VISUAL - LIMPO E MODERNO) --- */
 
-/* --- 3. CABEÇALHO COM FOTOS E LOGO (NOVA VERSÃO) --- */
 .header-novo {
   display: flex;
-  align-items: center;
-  /* Alinha verticalmente no centro */
-
-  /* 💥 A MUDANÇA ESTÁ AQUI: Centraliza e controla o espaço 💥 */
+  /* Mude para 'center' para o logo ficar no meio em telas grandes */
   justify-content: center;
-  /* Centraliza os itens */
-  gap: 50px;
-  /* Espaço entre os itens (Heloíse, Logo, Victor) */
-
+  align-items: flex-start;
   flex-wrap: wrap;
-  /* Permite quebrar linha em telas menores */
-  margin-bottom: 60px;
-  /* Mantém o espaço abaixo do cabeçalho */
+  gap: 30px;
+  /* Espaçamento entre os itens */
+  margin-bottom: 0px;
+  padding-top: 20px;
 }
 
-/* Logo central (entre as fotos) */
+/* O novo contêiner para o logo entre as fotos */
 .logo-fotos-central {
   display: flex;
-  flex-direction: column;
+  /* Para centralizar o conteúdo verticalmente */
   align-items: center;
-  text-align: center;
-  order: 2;
-  /* Garante que fique no meio, entre as fotos */
-
-  /* 💥 Ajuste a margem superior se precisar de mais espaço 💥 */
-  margin-top: -30px;
-  /* Sobe a logo um pouco para diminuir o espaço */
+  /* Centraliza verticalmente */
+  justify-content: center;
+  /* Centraliza horizontalmente */
+  height: 250px;
+  /* Altura para alinhar com as fotos */
+  margin: 0 15px;
+  /* Margem lateral para não encostar nas fotos */
 }
 
 /* A imagem da logo entre as fotos */
 .logo-entre-fotos {
-  width: 250px;
+  width: 200px;
   /* Ajuste o tamanho da logo aqui */
   height: auto;
   opacity: 0.95;
@@ -238,7 +232,7 @@ body {
 
 /* O NOME (Fonte bonita) */
 .nome-pessoa {
-  font-family: 'Pacifico', cursive;
+  font-family: "Pacifico", cursive;
   /* Fonte bonita para o nome */
   font-size: 2.8em;
   /* Tamanho grande */
@@ -249,15 +243,15 @@ body {
   transition: all 0.3s ease-in-out;
 }
 
-/* Cor do Victor (Agora usando o seletor correto) */
-.pessoa-card:nth-child(3) .nome-pessoa {
+/* Cor do Victor */
+.pessoa-card:nth-child(2) .nome-pessoa {
   color: var(--cor-balao-azul);
-  /* Azul */
+  /* <-- Esta regra precisa ser mais forte */
 }
 
 /* A IDADE (Fonte divertida) */
 .idade-pessoa {
-  font-family: 'Fredoka One', cursive;
+  font-family: "Fredoka One", cursive;
   /* Fonte divertida */
   font-size: 1.3em;
   color: var(--cor-texto-secundario);
@@ -279,12 +273,11 @@ body {
 }
 
 .titulo-principal {
-  font-family: 'Fredoka One', cursive;
+  font-family: "Fredoka One", cursive;
   font-size: 5em;
   color: var(--cor-balao-azul);
   margin: 0 0 25px 0;
-  text-shadow:
-    3px 3px 0px rgba(255, 255, 255, 0.7),
+  text-shadow: 3px 3px 0px rgba(255, 255, 255, 0.7),
     4px 4px 10px rgba(0, 0, 0, 0.15);
   display: inline-block;
   animation: bounceIn 1s ease-out forwards;
@@ -349,7 +342,7 @@ body {
 }
 
 .detalhes-evento strong {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   /* Fonte de destaque */
   font-weight: 600;
 }
@@ -379,6 +372,7 @@ body {
   /* Sombra mais suave */
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 /* Títulos das seções (Poppins) */
@@ -405,7 +399,7 @@ body {
   display: block;
   text-align: left;
   margin-bottom: 8px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   /* <-- NOVA FONTE DE LABEL */
   font-weight: 600;
   font-size: 1.1em;
@@ -444,7 +438,7 @@ body {
 
 /* Botão (Nova Cor Neutra/Jovial e Novo Hover) */
 .botao-confirmar {
-  background-color: #6A5ACD;
+  background-color: #6a5acd;
   /* <-- NOVA COR (SlateBlue) */
   color: white;
   padding: 16px 30px;
@@ -463,7 +457,7 @@ body {
 }
 
 .botao-confirmar:hover {
-  background-color: #5A4CAD;
+  background-color: #5a4cad;
   /* Cor mais escura */
   /* Nova transição (sombra cresce) */
   box-shadow: 0 8px 25px rgba(106, 90, 205, 0.6);
@@ -495,14 +489,14 @@ body {
 #lista-confirmados p {
   background-color: #f0f0f8;
   /* Fundo mais neutro (cinza/azulado) */
-  color: #4B5563;
+  color: #4b5563;
   /* Cor de texto mais escura */
   padding: 10px 18px;
   /* Mais padding */
   border-radius: 10px;
   margin: 0;
   font-weight: bold;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   /* Fonte Poppins */
   font-size: 0.95em;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
@@ -524,14 +518,14 @@ body {
 }
 
 .success-title {
-  font-family: 'Pacifico', cursive;
+  font-family: "Pacifico", cursive;
   font-size: 2.2em;
-  color: #4CAF50;
+  color: #4caf50;
   margin-bottom: 10px;
 }
 
 .success-phrase {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 1.1em;
   color: var(--cor-texto-secundario);
 }
@@ -577,7 +571,7 @@ body {
   top: 0;
   left: -20px;
   transform: rotate(-10deg);
-  font-family: 'Fredoka One', cursive;
+  font-family: "Fredoka One", cursive;
   font-size: 0.9em;
   color: var(--cor-texto-principal);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -610,63 +604,116 @@ body {
   }
 }
 
-/* --- 2.8. TÍTULO IMAGEM APENAS PARA CELULAR --- */
-.titulo-celular-img {
-  display: none;
-  /* Escondido no Desktop por padrão */
-  width: 100%;
-  /* Largura total do container no celular */
-  max-width: 350px;
-  /* Limita o tamanho em telas grandes de celular */
-  height: auto;
-  margin: 0 auto;
-  /* Centraliza a imagem */
+/* --- 13. ESTILO DO BOTÃO "CONFIRMAR OUTRO" --- */
+.botao-confirmar-outro {
+  background-color: transparent;
+  color: var(--cor-texto-secundario);
+  border: 2px solid #ccc;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.9em;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 25px;
+  /* Espaço acima do botão */
+}
+
+.botao-confirmar-outro:hover {
+  background-color: #f0f0f8;
+  border-color: #aaa;
+  color: var(--cor-texto-principal);
 }
 
 /* --- 8. RESPONSIVIDADE (Mobile) --- */
+
 @media (max-width: 768px) {
   body {
     padding: 20px 0;
   }
 
   .container {
-    margin: 20px;
+    margin: 15px;
     padding: 20px;
   }
 
-  .form-e-lista {
+  /* --- A CORREÇÃO (Menos Espaço Vertical) --- */
+
+  .header-novo {
     flex-direction: column;
-    gap: 30px;
+    align-items: center;
+    gap: 20px;
+    /* <-- DIMINUÍDO (Era 60px) */
+    margin-bottom: 20px;
+  }
+
+  .pessoa-card {
+    width: 90%;
+    margin-top: 40px;
+    /* <-- DIMINUÍDO (Era 70px) */
+    margin-bottom: 30px;
+    /* <-- DIMINUÍDO (Era 50px) */
+    order: 1;
+  }
+
+  .logo-fotos-central {
+    order: 2;
+    height: auto;
+    margin-top: -20px;
+    /* Sobe um pouco a logo */
+    margin-bottom: 10px;
+  }
+
+  .logo-entre-fotos {
+    width: 130px;
   }
 
   .titulo-principal {
-    font-size: 3em;
+    font-size: 3.2em;
   }
 
-  .nomes-idades {
-    flex-direction: column;
-    align-items: center;
-    gap: 80px;
-    /* Mais espaço entre eles no mobile */
-  }
-
-  .pessoa {
-    width: 90%;
-    margin-top: 70px;
-    margin-bottom: 50px;
-  }
-
-  .confirmacao-form,
-  .lista-convidados {
-    min-width: 0;
-    /* Remove a largura mínima de 300px no celular */
-    width: 100%;
-    /* Faz o card ocupar 100% do espaço disponível */
+  .detalhes-evento {
+    font-size: 1.1em;
   }
 
   .form-e-lista {
     flex-direction: column;
     gap: 30px;
+  }
+
+  .flork-container-form {
+    position: absolute;
+    width: 90px;
+    /* Reduzimos um pouco mais o Flork */
+    height: 100px;
+    /* Altura proporcional */
+
+    bottom: 0px;
+    /* Coloca o Flork na borda inferior do card */
+    right: 5px;
+    /* Coloca o Flork a 5px da borda direita do card */
+
+    z-index: 1;
+    /* Garante que o Flork fique acima do botão, se for o caso */
+  }
+
+  .flork-balao-form {
+    font-size: 0.7em;
+    /* Fonte ainda menor */
+    top: -10px;
+    /* Sobe o balão um pouco acima do Flork */
+    left: -20px;
+    /* Mais para a esquerda, para o balão caber dentro */
+    padding: 5px 8px;
+    /* Menos padding */
+    width: max-content;
+    /* A largura se ajusta ao conteúdo */
+    white-space: nowrap;
+    /* Impede quebra de linha */
+    transform: rotate(-10deg);
+    /* Mantém a inclinação */
+    text-align: right;
   }
 }
 
@@ -762,7 +809,7 @@ body {
 }
 
 .contador-numero {
-  font-family: 'Fredoka One', cursive;
+  font-family: "Fredoka One", cursive;
   font-size: 4em;
   /* Um pouco maior */
   color: var(--cor-balao-rosa);
@@ -788,7 +835,7 @@ body {
 }
 
 .contador-frase {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 1.1em;
   color: var(--cor-texto-secundario);
   margin: 5px 0 0 0;
@@ -889,11 +936,11 @@ body {
 
 #modal-lista-nomes p {
   background-color: #f0f0f8;
-  color: #4B5563;
+  color: #4b5563;
   padding: 10px 18px;
   border-radius: 10px;
   font-weight: bold;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 1em;
   margin: 0;
   width: 80%;
@@ -974,7 +1021,7 @@ body {
 }
 
 .controle-musica:hover {
-  background-color: #7CCD7C;
+  background-color: #7ccd7c;
   /* Verde mais claro no hover */
   transform: scale(1.1) rotate(5deg);
   /* Gira menos no hover */
@@ -1021,174 +1068,5 @@ body {
 
   100% {
     box-shadow: 0 4px 15px rgba(255, 192, 203, 0.4);
-  }
-}
-
-/* --- 13. ESTILO DO BOTÃO "CONFIRMAR OUTRO" --- */
-.botao-confirmar-outro {
-  background-color: transparent;
-  color: var(--cor-texto-secundario);
-  border: 2px solid #ccc;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-size: 0.9em;
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 25px;
-  /* Espaço acima do botão */
-}
-
-.botao-confirmar-outro:hover {
-  background-color: #f0f0f8;
-  border-color: #aaa;
-  color: var(--cor-texto-principal);
-}
-
-/* --- 14. ANIMAÇÃO DE ESTOURO DO BALÃO --- */
-
-/* Estilo para a explosão de confetes ao estourar */
-.confetti-burst-pop {
-  position: fixed;
-  /* Fixado na tela para a explosão */
-  transform: translate(-50%, -50%);
-  /* Centraliza a explosão */
-  pointer-events: none;
-  /* Permite clicar através */
-  z-index: 1000;
-  /* Garante que fique acima de tudo */
-}
-
-/* Animação para o balão que está "estourando" */
-.balao.popping {
-  animation: popAndFade 0.3s forwards;
-  /* Animação rápida de sumir */
-  pointer-events: none;
-  /* Desativa cliques durante o estouro */
-}
-
-@keyframes popAndFade {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  50% {
-    transform: scale(1.2);
-    /* Cresce um pouco antes de sumir */
-    opacity: 0.5;
-  }
-
-  100% {
-    transform: scale(0);
-    /* Diminui até sumir */
-    opacity: 0;
-  }
-}
-
-/* --- 8. RESPONSIVIDADE (Mobile) --- */
-
-@media (max-width: 768px) {
-
-  body {
-    padding: 20px 0;
-  }
-
-  .container {
-    margin: 15px;
-    padding: 20px;
-  }
-
-  /* 💥 1. MOSTRA A IMAGEM DO TÍTULO NO CELULAR 💥 */
-  .titulo-celular-img {
-    display: block;
-    /* Faz a imagem aparecer */
-    margin-bottom: 30px;
-    /* Espaço abaixo dela */
-    padding-bottom: 20px;
-    border-bottom: 2px dashed #eee;
-    /* Mantém a linha tracejada, se quiser */
-  }
-
-  /* 💥 2. DIMINUI O ESPAÇAMENTO 💥 */
-  .header-novo {
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    /* <-- DIMINUÍDO (Era 60px) */
-    margin-bottom: 20px;
-  }
-
-  .pessoa-card {
-    width: 90%;
-    margin-top: 40px;
-    /* <-- DIMINUÍDO (Era 70px) */
-    margin-bottom: 30px;
-    /* <-- DIMINUÍDO (Era 50px) */
-    order: 1;
-  }
-
-  /* Joga a logo para o final do empilhamento */
-  .logo-fotos-central {
-    order: 2;
-    /* A logo vai para DEPOIS das fotos */
-    height: auto;
-    /* Remove a altura fixa */
-    margin-top: -30px;
-    /* Sobe um pouco a logo */
-  }
-
-  .logo-entre-fotos {
-    width: 200px;
-    /* Logo menor no mobile */
-  }
-
-  .titulo-principal {
-    font-size: 3.2em;
-    /* Fonte menor no mobile */
-  }
-
-  .detalhes-evento {
-    font-size: 1.1em;
-  }
-
-  /* Empilha o formulário e a lista */
-  .form-e-lista {
-    flex-direction: column;
-    gap: 30px;
-  }
-
-  /* Ajusta o Flork no formulário */
-  .flork-container-form {
-    width: 80px;
-    /* Reduzimos o Flork para caber melhor */
-    height: 90px;
-    /* Altura proporcional */
-
-    bottom: 0px;
-    /* Coloca o Flork na borda inferior do card */
-    right: 0px;
-    /* Cola o Flork na borda direita do card */
-
-    z-index: 1;
-  }
-
-  .flork-balao-form {
-    font-size: 0.65em;
-    /* Fonte ainda menor */
-    top: -15px;
-    /* Sobe o balão mais acima da cabeça do Flork */
-    left: -18px;
-    /* Mais para a esquerda, para o balão caber dentro */
-    padding: 4px 7px;
-    /* Menos padding */
-    width: max-content;
-    /* A largura se ajusta ao conteúdo */
-    white-space: nowrap;
-    /* Impede quebra de linha */
-    transform: rotate(-10deg);
-    /* Mantém a inclinação */
-    text-align: right;
   }
 }

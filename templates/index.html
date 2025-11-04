@@ -30,7 +30,6 @@
 
   <div class="container">
 
-    <img src="static/titulo_celular.png" alt="Convite para Aniversário" class="titulo-celular-img">
     <header class="header-novo">
 
       <div class="pessoa-card">
@@ -43,9 +42,6 @@
         <p class="idade-pessoa">12 ANOS</p>
       </div>
 
-      <div class="logo-fotos-central">
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo Celebre Conosco" class="logo-entre-fotos">
-      </div>
 
       <div class="pessoa-card">
         <div class="foto-container">
@@ -67,7 +63,7 @@
         <p>Dia: <strong>11/11</strong> | Horário: <strong>19:30</strong></p>
         <p><strong>Localização:</strong></p>
         <p>
-          <a href="http://googleusercontent.com/maps.google.com/6" target="_blank" class="link-mapa">
+          <a href="https://maps.app.goo.gl/QM94J8zkHvYQ4ciL7" target="_blank" class="link-mapa">
             <strong>À Lá Vontê Pizzaria</strong> <br>
             SRIA II (Polo de Moda) - Guará, Brasília
           </a>
@@ -103,7 +99,9 @@
           <p class="success-phrase">Agora é só esperar o dia e preparar o estômago para a pizza!</p>
 
           <button id="confirmar-outro-btn" class="botao-confirmar-outro">Confirmar outro nome</button>
+
         </div>
+
 
         <div class="flork-container-form">
           <img src="{{ url_for('static', filename='flork.avif') }}" alt="Flork Meme" class="flork-img-form">
@@ -143,7 +141,6 @@
     </div>
   </div>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
-  <script src="{{ url_for('static', filename='animation.js') }}"></script>
 </body>
 
 </html>
