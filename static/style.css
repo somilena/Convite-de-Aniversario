@@ -594,39 +594,6 @@ body {
   }
 }
 
-/* --- 8. RESPONSIVIDADE (Mobile) --- */
-@media (max-width: 768px) {
-  body {
-    padding: 20px 0;
-  }
-
-  .container {
-    margin: 20px;
-    padding: 20px;
-  }
-
-  .form-e-lista {
-    flex-direction: column;
-    gap: 30px;
-  }
-
-  .titulo-principal {
-    font-size: 3em;
-  }
-
-  .nomes-idades {
-    flex-direction: column;
-    align-items: center;
-    gap: 80px;
-    /* Mais espaço entre eles no mobile */
-  }
-
-  .pessoa {
-    width: 90%;
-    margin-top: 70px;
-    margin-bottom: 50px;
-  }
-}
 
 /* --- ESTILOS PARA OS CONFEITES AO CLICAR NA FOTO --- */
 
