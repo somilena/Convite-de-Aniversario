@@ -40,10 +40,13 @@ body {
   pointer-events: none;
 }
 
-.balao,
-.confete {
+.balao .confete {
   position: absolute;
-  bottom: -150px;
+
+  /* --- A CORREÇÃO ESTÁ AQUI --- */
+  bottom: -300px; /* Mude de -150px para -300px (ou mais) */
+  /* Isso força o balão a começar BEM abaixo da tela */
+
   height: auto;
   opacity: 0.7;
   animation: floatUp 25s linear infinite;
