@@ -36,6 +36,21 @@
         <div class="foto-container">
           <img src="{{ url_for('static', filename='heloise.jpeg') }}" alt="Foto da Heloíse" class="foto-redonda-nova">
           <img src="{{ url_for('static', filename='chapeu_heloise.png') }}" alt="Chapéu de Festa" class="chapeu-novo heloise-chapeu">
+    <header class="header">
+      <div class="nomes-idades">
+        <div class="pessoa">
+          <img src="{{ url_for('static', filename='heloise.jpeg') }}" alt="Foto da Heloíse" class="foto-redonda">
+          <img src="{{ url_for('static', filename='chapeu_heloise.png') }}" alt="Chapéu de Festa"
+            class="chapeu heloise-chapeu">
+          <span class="idade amarelo">12 ANOS</span>
+          <span class="nome-sub rosa">DA HELOISE</span>
+        </div>
+        <div class="pessoa">
+          <img src="{{ url_for('static', filename='victor.jpeg') }}" alt="Foto do Victor" class="foto-redonda">
+          <img src="{{ url_for('static', filename='chapeu_victor.png') }}" alt="Chapéu de Festa"
+            class="chapeu victor-chapeu">
+          <span class="idade verde">17 ANOS</span>
+          <span class="nome-sub azul">DO VICTOR</span>
         </div>
         <h2 class="nome-pessoa">Heloíse</h2>
         <p class="idade-pessoa">12 ANOS</p>
@@ -133,6 +148,51 @@
         <div id="modal-lista-nomes">
           </div>
       </div>
+    </header>
+
+    <section class="titulo-e-detalhes">
+      <h1 class="titulo-principal">🎉 Venha Comemorar! 🎉</h1>
+
+      <div class="detalhes-evento">
+        <p>Dia: <strong>11/11</strong></p>
+        <p>Horário: <strong>Às 19:30</strong></p>
+        <p>
+          Local: <a
+            href="https://www.google.com/maps/search/A+La+Vont%C3%AA+Pizzaria+SRIA+II+(Polo+de+Moda)+-+Guar%C3%A1+II,+Bras%C3%ADlia"
+            target="_blank" class="link-mapa">
+            <strong>À Lá Vontê Pizzaria</strong> <br> SRIA II (Polo de Moda) - Guará II, Brasília
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <section class="confirmacao-form">
+      <h3>✅ Confirme Sua Presença!</h3>
+      <form id="rsvp-form">
+        <label for="nome">Seu Nome Completo:</label>
+        <input type="text" id="nome" required placeholder="Ex: Maria da Silva">
+
+        <label for="participacao">Você irá?</label>
+        <select id="participacao" required>
+          <option value="" disabled selected>Selecione</option>
+          <option value="SIM">SIM! Estarei lá! 😊</option>
+          <option value="NÃO">NÃO poderei ir. 😔</option>
+        </select>
+
+        <button type="submit" class="botao-confirmar">Enviar Confirmação</button>
+        <p id="mensagem-status" class="status-message"></p>
+      </form>
+    </section>
+
+    <section class="lista-convidados">
+      <h3>🥳 Quem Já Confirmou?</h3>
+      <div id="lista-confirmados">
+      </div>
+    </section>
+
+    <div class="flork-container">
+      <img src="{{ url_for('static', filename='flork.avif') }}" alt="Flork Meme" class="flork-img">
+      <div class="flork-balao">Confirme a sua presença</div>
     </div>
   </div><script src="{{ url_for('static', filename='script.js') }}"></script>
   <script src="{{ url_for('static', filename='animation.js') }}"></script>
